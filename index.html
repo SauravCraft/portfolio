@@ -1304,7 +1304,7 @@ footer{
     </div>
 
     <div class="reveal">
-      <div class="contact-form" id="contact-form">
+      <form class="contact-form" id="contact-form">
         <div class="form-field">
           <label class="form-label">NAME</label>
           <input class="form-input" type="text" placeholder="Your name" id="cf-name" name="name" required>
@@ -1324,7 +1324,7 @@ footer{
         <div id="form-success-msg" style="display:none;font-family:var(--ff-mono);font-size:12px;color:#10b981;letter-spacing:0.1em;padding:12px 0">✓ MESSAGE SENT — I'll get back to you soon!</div>
         <div id="form-error-msg" style="display:none;font-family:var(--ff-mono);font-size:12px;color:#f43f5e;letter-spacing:0.1em;padding:12px 0">✕ Could not send. Try emailing sauravkumar7739s@gmail.com directly</div>
         <button class="form-submit" id="form-submit-btn" type="button">SEND MESSAGE ↗</button>
-      </div>
+      </form>
     </div>
   </div>
 </section>
@@ -1496,9 +1496,9 @@ document.getElementById('form-submit-btn').addEventListener('click', async funct
   this.disabled = true;
 
   // ── Option A: Web3Forms (set your access_key from web3forms.com) ──────────
-  const WEB3FORMS_KEY = 'YOUR_WEB3FORMS_KEY'; // replace with real key
+  const WEB3FORMS_KEY = 'da4a0e0f-7b16-47f0-9545-34b8eb8309c0'; // replace with real key
 
-  if (WEB3FORMS_KEY && WEB3FORMS_KEY !== 'YOUR_WEB3FORMS_KEY') {
+  if (WEB3FORMS_KEY && WEB3FORMS_KEY !== 'da4a0e0f-7b16-47f0-9545-34b8eb8309c0') {
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
