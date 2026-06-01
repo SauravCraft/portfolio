@@ -1304,7 +1304,8 @@ footer{
     </div>
 
     <div class="reveal">
-      <form class="contact-form" netlify id="contact-form" onsubmit="return false;">
+      <form class="contact-form" id="contact-form" name="contact-form" method="POST" data-netlify="true" onsubmit="return false;">
+        <input type="hidden" name="form-name" value="contact-form">
         <div class="form-field">
           <label class="form-label">NAME</label>
           <input class="form-input" type="text" placeholder="Your name" id="cf-name" name="name" required>
@@ -1496,40 +1497,54 @@ document.getElementById('form-submit-btn').addEventListener('click', async funct
   this.disabled = true;
 
   // ── Option A: Web3Forms (set your access_key from web3forms.com) ──────────
-  const WEB3FORMS_KEY = 'da4a0e0f-7b16-47f0-9545-34b8eb8309c0'; // replace with real key
 
-  if (WEB3FORMS_KEY && WEB3FORMS_KEY !== 'da4a0e0f-7b16-47f0-9545-34b8eb8309c0') {
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          name: n, email: e,
-          subject: s || 'Portfolio Contact — ' + n,
-          message: m,
-          from_name: 'sauravcraft.netlify.app'
-        })
-      });
-      const data = await res.json();
-      if (data.success) {
-        this.textContent = 'MESSAGE SENT ✓';
-        this.style.background = '#10b981';
-        successMsg.style.display = 'block';
-        document.getElementById('cf-name').value = '';
-        document.getElementById('cf-email').value = '';
-        document.getElementById('cf-subject').value = '';
-        document.getElementById('cf-msg').value = '';
-        setTimeout(() => {
-          this.textContent = 'SEND MESSAGE ↗';
-          this.style.background = '';
-          this.disabled = false;
-          successMsg.style.display = 'none';
-        }, 4000);
-        return;
-      }
-    } catch(err) {}
+const WEB3FORMS_KEY = 'da4a0e0f-7b16-47f0-9545-34b8eb8309c0';
+
+try {
+  const res = await fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      access_key: WEB3FORMS_KEY,
+      name: n,
+      email: e,
+      subject: s || 'Portfolio Contact — ' + n,
+      message: m,
+      from_name: 'sauravcraft.netlify.app'
+    })
+  });
+
+  const data = await res.json();
+
+  if (data.success) {
+    this.textContent = 'MESSAGE SENT ✓';
+    this.style.background = '#10b981';
+
+    successMsg.style.display = 'block';
+
+    document.getElementById('cf-name').value = '';
+    document.getElementById('cf-email').value = '';
+    document.getElementById('cf-subject').value = '';
+    document.getElementById('cf-msg').value = '';
+
+    setTimeout(() => {
+      this.textContent = 'SEND MESSAGE ↗';
+      this.style.background = '';
+      this.disabled = false;
+      successMsg.style.display = 'none';
+    }, 4000);
+  } else {
+    console.log(data);
+    alert('Failed to send message');
   }
+
+} catch(err) {
+  console.error(err);
+  alert('Something went wrong');
+}
 
   // ── Option B: mailto fallback (always works, opens email client) ──────────
   const body = encodeURIComponent('Name: ' + n + '\nEmail: ' + e + '\n\n' + m);
