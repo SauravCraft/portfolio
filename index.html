@@ -107,8 +107,8 @@ section{position:relative;padding:clamp(5rem,10vh,8rem) clamp(1.5rem,6vw,5.5rem)
 #hero::before{content:'';position:absolute;left:-200px;top:50%;transform:translateY(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,180,255,.07) 0%,transparent 70%);pointer-events:none;z-index:1}
 
 .hud{position:absolute;z-index:4;pointer-events:none;font-family:var(--ff-m);font-size:9px;color:rgba(0,180,255,.3);letter-spacing:.18em;line-height:2.2}
-.hud-tl{top:76px;left:clamp(1.5rem,4vw,3.5rem)}
-.hud-br{bottom:48px;right:clamp(1.5rem,4vw,3.5rem);text-align:right}
+.hud-tl{bottom:48px;right:clamp(1.5rem,4vw,3.5rem);text-align:right}
+.hud-br{bottom:90px;right:clamp(1.5rem,4vw,3.5rem);text-align:right}
 .hud-stat{color:rgba(0,255,136,.4)}
 .hud-warn{color:rgba(240,180,41,.4)}
 
@@ -133,7 +133,7 @@ section{position:relative;padding:clamp(5rem,10vh,8rem) clamp(1.5rem,6vw,5.5rem)
 .h-core-stat em{color:rgba(0,180,255,.6);font-style:normal;font-size:11px}
 
 /* HERO CONTENT — left column */
-.hero-content{position:relative;z-index:5;padding:clamp(2rem,5vw,4rem) clamp(1.5rem,5vw,5rem)}
+.hero-content{position:relative;z-index:5;padding:clamp(1rem,3vw,2.5rem) clamp(1.5rem,5vw,5rem) clamp(2rem,4vw,3rem);margin-top:-2rem}
 .hero-kicker{font-family:var(--ff-m);font-size:10px;letter-spacing:.35em;color:rgba(0,180,255,.6);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;opacity:0;animation:slideUp .7s .8s var(--expo) forwards}
 .hero-kicker::before{content:'';display:block;width:28px;height:1px;background:var(--blue)}
 .hero-name{font-family:var(--ff-d);font-size:clamp(3.2rem,6.5vw,6rem);line-height:.9;letter-spacing:.04em;background:linear-gradient(150deg,#fff 0%,#d4e8ff 45%,rgba(0,180,255,.8) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 40px rgba(0,180,255,.18));margin-bottom:.5rem;opacity:0;animation:slideUp .8s 1s var(--expo) forwards}
@@ -148,7 +148,34 @@ section{position:relative;padding:clamp(5rem,10vh,8rem) clamp(1.5rem,6vw,5.5rem)
 .h-stat-n{font-family:var(--ff-d);font-size:1.55rem;color:var(--text);line-height:1}
 .h-stat-n em{color:var(--blue);font-style:normal}
 .h-stat-l{font-family:var(--ff-m);font-size:9px;color:var(--text3);letter-spacing:.2em;text-transform:uppercase}
-.hero-ctas{display:flex;gap:.85rem;flex-wrap:wrap;opacity:0;animation:slideUp .8s 2s var(--expo) forwards}
+.hero-ctas{display:flex;gap:.75rem;flex-wrap:wrap;opacity:0;animation:slideUp .8s 2s var(--expo) forwards}
+/* Interactive CTA cards */
+.hcta{position:relative;display:inline-flex;align-items:center;gap:.75rem;padding:14px 20px;text-decoration:none;overflow:hidden;transition:all .35s var(--expo);cursor:none;border:1px solid}
+.hcta-glow{position:absolute;inset:0;opacity:0;transition:opacity .35s;pointer-events:none}
+.hcta-icon{font-size:1.1rem;flex-shrink:0;transition:transform .3s var(--expo)}
+.hcta-text{display:flex;flex-direction:column;gap:2px}
+.hcta-label{font-family:var(--ff-m);font-size:10px;letter-spacing:.2em;font-weight:500}
+.hcta-sub{font-family:var(--ff-m);font-size:8px;letter-spacing:.15em;opacity:.55}
+.hcta-arrow{font-size:14px;margin-left:4px;transition:transform .3s var(--expo);opacity:.6}
+/* Primary — blue */
+.hcta-primary{background:rgba(0,180,255,.09);border-color:rgba(0,180,255,.35);color:var(--blue)}
+.hcta-primary .hcta-glow{background:radial-gradient(ellipse at 50% 0%,rgba(0,180,255,.18),transparent 70%)}
+.hcta-primary:hover{background:rgba(0,180,255,.16);border-color:rgba(0,180,255,.7);transform:translateY(-3px);box-shadow:0 0 32px rgba(0,180,255,.25),0 8px 24px rgba(0,0,0,.4)}
+.hcta-primary:hover .hcta-glow{opacity:1}
+.hcta-primary:hover .hcta-arrow{transform:translateX(4px);opacity:1}
+.hcta-primary:hover .hcta-icon{transform:scale(1.15) rotate(-10deg)}
+/* Resume — gold */
+.hcta-resume{background:rgba(240,180,41,.06);border-color:rgba(240,180,41,.25);color:var(--gold)}
+.hcta-resume .hcta-glow{background:radial-gradient(ellipse at 50% 0%,rgba(240,180,41,.15),transparent 70%)}
+.hcta-resume:hover{background:rgba(240,180,41,.12);border-color:rgba(240,180,41,.6);transform:translateY(-3px);box-shadow:0 0 28px rgba(240,180,41,.2),0 8px 24px rgba(0,0,0,.4)}
+.hcta-resume:hover .hcta-glow{opacity:1}
+.hcta-resume:hover .hcta-icon{transform:scale(1.15) translateY(-2px)}
+/* Contact — purple */
+.hcta-contact{background:rgba(124,58,237,.07);border-color:rgba(124,58,237,.3);color:var(--purple2)}
+.hcta-contact .hcta-glow{background:radial-gradient(ellipse at 50% 0%,rgba(124,58,237,.16),transparent 70%)}
+.hcta-contact:hover{background:rgba(124,58,237,.14);border-color:rgba(124,58,237,.6);transform:translateY(-3px);box-shadow:0 0 28px rgba(124,58,237,.22),0 8px 24px rgba(0,0,0,.4)}
+.hcta-contact:hover .hcta-glow{opacity:1}
+.hcta-contact:hover .hcta-icon{transform:scale(1.15) rotate(15deg)}
 @keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
 /* HERO right column wrapper */
@@ -436,13 +463,13 @@ footer{padding:2rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:1px
   <div class="hero-grid"></div>
   <div class="hero-vignette"></div>
 
-  <!-- HUD overlays — subtle, not distracting -->
+  <!-- HUD overlays — both at bottom-right -->
+  <div class="hud hud-br">
+    <div>UE5 · C++ · MULTIPLAYER · GAS</div>
+  </div>
   <div class="hud hud-tl">
     <div id="hud-time">00:00:00 IST</div>
     <div class="hud-stat">SK.GSE // v2026.1</div>
-  </div>
-  <div class="hud hud-br">
-    <div>UE5 · C++ · MULTIPLAYER · GAS</div>
   </div>
 
   <!-- LEFT: text content -->
@@ -452,22 +479,38 @@ footer{padding:2rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:1px
     <div class="hero-role">Unreal Engine 5 &nbsp;·&nbsp; C++ &nbsp;·&nbsp; Multiplayer</div>
     <div class="hero-divider"></div>
     <p class="hero-desc">I build <strong>scalable gameplay systems</strong> and multiplayer-ready architectures — not features, but the foundations that entire games run on.</p>
-    <div class="hero-tags">
-      <span class="hero-tag-chip">Gameplay Framework</span>
-      <span class="hero-tag-chip">Networked Inventory</span>
-      <span class="hero-tag-chip">GAS Integration</span>
-      <span class="hero-tag-chip">Procedural Gen</span>
-      <span class="hero-tag-chip">Behavior Trees</span>
-    </div>
+
     <div class="hero-stats">
       <div class="h-stat"><div class="h-stat-n"><em>500</em>+</div><div class="h-stat-l">UE5 Hours</div></div>
       <div class="h-stat"><div class="h-stat-n"><em>4</em></div><div class="h-stat-l">Shipped Projects</div></div>
       <div class="h-stat"><div class="h-stat-n"><em>4</em></div><div class="h-stat-l">Certifications</div></div>
     </div>
     <div class="hero-ctas">
-      <a href="#projects" class="btn-p">View Projects</a>
-      <a href="https://drive.google.com/file/d/1Syztq3ZFFwH3BwrINjIdfDh1alDA80ou/view?usp=drive_link" target="_blank" class="btn-o">↗ Resume</a>
-      <a href="#contact" class="btn-g">Contact</a>
+      <a href="#projects" class="hcta hcta-primary">
+        <span class="hcta-icon">⬡</span>
+        <span class="hcta-text">
+          <span class="hcta-label">VIEW PROJECTS</span>
+          <span class="hcta-sub">4 shipped systems</span>
+        </span>
+        <span class="hcta-arrow">→</span>
+        <span class="hcta-glow"></span>
+      </a>
+      <a href="https://drive.google.com/file/d/1Syztq3ZFFwH3BwrINjIdfDh1alDA80ou/view?usp=drive_link" target="_blank" class="hcta hcta-resume">
+        <span class="hcta-icon">↗</span>
+        <span class="hcta-text">
+          <span class="hcta-label">RESUME</span>
+          <span class="hcta-sub">Download PDF</span>
+        </span>
+        <span class="hcta-glow"></span>
+      </a>
+      <a href="#contact" class="hcta hcta-contact">
+        <span class="hcta-icon">◈</span>
+        <span class="hcta-text">
+          <span class="hcta-label">CONTACT ME</span>
+          <span class="hcta-sub">Open to roles</span>
+        </span>
+        <span class="hcta-glow"></span>
+      </a>
     </div>
   </div>
 
@@ -553,14 +596,10 @@ footer{padding:2rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:1px
       <div class="ab-specs">
         <div class="ab-spec"><span class="ab-spec-i">⬡</span><span class="ab-spec-l">ENGINE</span><span class="ab-spec-v">Unreal Engine 5</span></div>
         <div class="ab-spec"><span class="ab-spec-i">⟨/⟩</span><span class="ab-spec-l">LANGUAGE</span><span class="ab-spec-v">C++ / Blueprints</span></div>
-        <div class="ab-spec"><span class="ab-spec-i">⌘</span><span class="ab-spec-l">NETWORKING</span><span class="ab-spec-v">Replication · GAS</span></div>
         <div class="ab-spec"><span class="ab-spec-i">◇</span><span class="ab-spec-l">UNIVERSITY</span><span class="ab-spec-v">Galgotias, B.Tech CSE</span></div>
         <div class="ab-spec"><span class="ab-spec-i">▲</span><span class="ab-spec-l">GRAD YEAR</span><span class="ab-spec-v">Jul 2028</span></div>
-        <div class="ab-spec"><span class="ab-spec-i">♥</span><span class="ab-spec-l">HOURS / UE5</span><span class="ab-spec-v">500+</span></div>
         <div class="ab-spec"><span class="ab-spec-i">◈</span><span class="ab-spec-l">GITHUB</span><a href="https://github.com/SauravCraft" target="_blank" style="color:var(--text);text-decoration:none;letter-spacing:.07em" class="ab-spec-v">SauravCraft</a></div>
         <div class="ab-spec"><span class="ab-spec-i">▲</span><span class="ab-spec-l">LINKEDIN</span><a href="https://www.linkedin.com/in/saurav-kumar-88a069315/" target="_blank" style="color:var(--text);text-decoration:none;letter-spacing:.07em" class="ab-spec-v">saurav-kumar-88a069315</a></div>
-        <div class="ab-spec"><span class="ab-spec-i">⬡</span><span class="ab-spec-l">PORTFOLIO</span><a href="https://sauravcraft.vercel.app" target="_blank" style="color:var(--text);text-decoration:none;letter-spacing:.07em" class="ab-spec-v">sauravcraft.vercel.app</a></div>
-        <div class="ab-spec"><span class="ab-spec-i">⚡</span><span class="ab-spec-l">AVAILABILITY</span><span class="ab-spec-v" style="color:var(--green)">Available Now</span></div>
       </div>
       <div class="ab-cert-list">
         <div class="ab-cert">OOP in C++ — Certified</div>
@@ -582,19 +621,19 @@ footer{padding:2rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:1px
         <div class="tl-wrap">
           <div class="tl-item">
             <div class="tl-dot b"></div>
-            <div class="tl-yr">2022 — ENROLLED</div>
+            <div class="tl-yr">2024 — ENROLLED</div>
             <div class="tl-title">B.Tech CSE · Galgotias University</div>
             <div class="tl-body">Started core CS foundation — Data Structures, Algorithms, Software Engineering. Discovered game development and began parallel self-study.</div>
           </div>
           <div class="tl-item">
             <div class="tl-dot p"></div>
-            <div class="tl-yr">2023</div>
+            <div class="tl-yr">2024</div>
             <div class="tl-title">Unreal Engine Journey Begins</div>
             <div class="tl-body">First deep dive into UE4/5 architecture, Blueprint scripting, actor lifecycle, and Blender 3D asset creation with UE5 pipeline integration.</div>
           </div>
           <div class="tl-item">
             <div class="tl-dot g"></div>
-            <div class="tl-yr">2024 — 2025</div>
+            <div class="tl-yr">2025</div>
             <div class="tl-title">UI Systems, Web &amp; Team Experience</div>
             <div class="tl-body">Advanced UMG interfaces, Figma prototyping, React/frontend engineering. Joined the University Web Team — 4-person collaborative development with Git workflows.</div>
           </div>
@@ -1024,7 +1063,7 @@ footer{padding:2rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:1px
     </div>
     <div class="etl-item">
       <div class="etl-dot p"></div>
-      <div class="etl-yr">2023 — 2025</div>
+      <div class="etl-yr">2024 — 2025</div>
       <div class="etl-role">Independent Game Systems Developer</div>
       <div class="etl-org">Self-Directed · Unreal Engine 5</div>
       <ul class="etl-list">
@@ -1037,7 +1076,7 @@ footer{padding:2rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:1px
     </div>
     <div class="etl-item">
       <div class="etl-dot g"></div>
-      <div class="etl-yr">2022 — PRESENT</div>
+      <div class="etl-yr">2024 — PRESENT</div>
       <div class="etl-role">B.Tech Computer Science Engineering</div>
       <div class="etl-org">Galgotias University · Greater Noida · Graduating 2028</div>
       <ul class="etl-list">
@@ -1086,7 +1125,7 @@ footer{padding:2rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:1px
       <div class="rec-icon">⚡</div>
       <div class="rec-title">Aggressive Self-Learner</div>
       <p class="rec-body">4 game projects across 4 different domains — inventory systems, procedural generation, movement engineering, and combat architecture — all in under 2 years while studying full-time. Currently learning GAS, authoritative networking, and advanced AI simultaneously. I move fast and I document what I learn.</p>
-      <div class="rec-metric">4 CERTS · 4 PROJECTS · 500+ UE5 HRS · 2 YEARS SELF-TAUGHT</div>
+      <div class="rec-metric">4 CERTS · 4 PROJECTS · 500+ UE5 HRS · SELF-TAUGHT</div>
     </div>
     <div class="rec-card" style="--cc:var(--red)">
       <div class="rec-icon">🎯</div>
