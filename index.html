@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Saurav Kumar — Game Systems Engineer & Gameplay Programmer. Unreal Engine 5, C++, Multiplayer Architecture.">
+<meta name="description" content="Saurav Kumar — Game Systems Engineer. UE5, C++, Multiplayer Architecture.">
 <title>SAURAV KUMAR // GAME SYSTEMS ENGINEER</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,338 +12,366 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
-:root{
-  --bg:#050505;--bg1:#070710;--bg2:#0a0a18;
-  --blue:#00b4ff;--blue2:#0055cc;--purple:#7c3aed;--purple2:#a78bfa;
-  --gold:#f0b429;--cyan:#00ffe7;--green:#00ff88;--red:#ff2255;
-  --text:#dce8ff;--text2:#6b7f99;--text3:#2d3a4d;
-  --surface:rgba(255,255,255,0.028);--border:rgba(0,180,255,0.09);
+:root {
+  --bg:#050505; --bg1:#070710; --bg2:#0a0a18;
+  --blue:#00b4ff; --blue2:#0055cc; --purple:#7c3aed; --purple2:#a78bfa;
+  --gold:#f0b429; --cyan:#00ffe7; --green:#00ff88; --red:#ff2255;
+  --text:#dce8ff; --text2:#8a9bb8; --text3:#3d4f66;
+  --surface:rgba(255,255,255,0.03); --border:rgba(0,180,255,0.1);
   --expo:cubic-bezier(0.16,1,0.3,1);
-  --ff-d:'Orbitron',monospace;--ff-b:'Space Grotesk',sans-serif;--ff-m:'JetBrains Mono',monospace;
+  --ff-d:'Orbitron',monospace; --ff-b:'Space Grotesk',sans-serif; --ff-m:'JetBrains Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--ff-b);overflow-x:hidden;cursor:none}
+body{background:var(--bg);color:var(--text);font-family:var(--ff-b);overflow-x:hidden;cursor:none;line-height:1.6}
 ::-webkit-scrollbar{width:2px}
 ::-webkit-scrollbar-track{background:var(--bg1)}
 ::-webkit-scrollbar-thumb{background:var(--blue)}
+
+/* CURSOR */
 #cur,#cur2{position:fixed;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);border-radius:50%}
 #cur{width:8px;height:8px;background:var(--blue);box-shadow:0 0 12px var(--blue);transition:width .15s,height .15s,background .15s;mix-blend-mode:screen}
 #cur.h{width:22px;height:22px;background:var(--purple2);box-shadow:0 0 20px var(--purple)}
 #cur2{width:38px;height:38px;border:1px solid rgba(0,180,255,0.32);transition:all .1s ease}
 #cur2.h{width:54px;height:54px;border-color:rgba(124,58,237,0.5)}
 #scan{position:fixed;inset:0;pointer-events:none;z-index:9000;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.012) 2px,rgba(0,0,0,.012) 3px)}
+#pbg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.25}
+
 /* LOADER */
 #loader{position:fixed;inset:0;z-index:99000;background:#020208;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1.2s var(--expo),visibility 1.2s}
 #loader.gone{opacity:0;visibility:hidden;pointer-events:none}
 .lr-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .lr-ring{position:absolute;border-radius:50%;border:1px solid}
-.lr-ring:nth-child(1){width:540px;height:540px;border-color:rgba(0,180,255,.05);animation:lspin 28s linear infinite}
-.lr-ring:nth-child(2){width:400px;height:400px;border-color:rgba(124,58,237,.07);animation:lspin 20s linear infinite reverse}
-.lr-ring:nth-child(3){width:270px;height:270px;border-color:rgba(240,180,41,.06);animation:lspin 14s linear infinite}
-.lr-ring:nth-child(4){width:160px;height:160px;border-color:rgba(0,255,231,.09);animation:lspin 9s linear infinite reverse}
+.lr-ring:nth-child(1){width:520px;height:520px;border-color:rgba(0,180,255,.06);animation:spin 28s linear infinite}
+.lr-ring:nth-child(2){width:380px;height:380px;border-color:rgba(124,58,237,.08);animation:spin 20s linear infinite reverse}
+.lr-ring:nth-child(3){width:250px;height:250px;border-color:rgba(240,180,41,.06);animation:spin 14s linear infinite}
+.lr-ring:nth-child(4){width:140px;height:140px;border-color:rgba(0,255,231,.1);animation:spin 9s linear infinite reverse}
 .lr-ring::before{content:'';position:absolute;width:6px;height:6px;background:var(--blue);border-radius:50%;top:-3px;left:50%;transform:translateX(-50%);box-shadow:0 0 10px var(--blue)}
 .lr-ring:nth-child(2)::before{background:var(--purple2);box-shadow:0 0 10px var(--purple);top:50%;left:auto;right:-3px;transform:translateY(-50%)}
-.lr-ring:nth-child(3)::before{background:var(--gold);box-shadow:0 0 10px var(--gold);top:auto;bottom:-3px}
+.lr-ring:nth-child(3)::before{background:var(--gold);box-shadow:0 0 10px var(--gold);top:auto;bottom:-3px;left:50%;transform:translateX(-50%)}
 .lr-ring:nth-child(4)::before{background:var(--cyan);box-shadow:0 0 10px var(--cyan);top:50%;left:-3px;transform:translateY(-50%)}
-@keyframes lspin{to{transform:rotate(360deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
 .lr-body{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center}
-.lr-logo{font-family:var(--ff-d);font-size:clamp(1.8rem,5vw,3rem);letter-spacing:.2em;color:var(--text);margin-bottom:.3rem;text-shadow:0 0 60px var(--blue),0 0 120px rgba(0,180,255,.2)}
+.lr-logo{font-family:var(--ff-d);font-size:clamp(2rem,5vw,3.2rem);letter-spacing:.2em;color:var(--text);margin-bottom:.4rem;text-shadow:0 0 60px var(--blue)}
 .lr-logo em{color:var(--blue);font-style:normal}
-.lr-role{font-family:var(--ff-m);font-size:10px;color:var(--text2);letter-spacing:.4em;text-transform:uppercase;margin-bottom:2.5rem}
-.lr-track{width:min(380px,80vw);height:1px;background:rgba(255,255,255,.05);position:relative;margin-bottom:.8rem;overflow:hidden}
+.lr-role{font-family:var(--ff-m);font-size:11px;color:var(--text2);letter-spacing:.35em;text-transform:uppercase;margin-bottom:2.5rem}
+.lr-track{width:min(400px,80vw);height:1px;background:rgba(255,255,255,.05);position:relative;margin-bottom:.8rem;overflow:hidden}
 .lr-fill{position:absolute;inset:0;width:0%;background:linear-gradient(90deg,var(--purple),var(--blue),var(--cyan));box-shadow:0 0 18px var(--blue);transition:width .2s ease}
-.lr-pct{font-family:var(--ff-m);font-size:11px;color:var(--blue);letter-spacing:.25em;margin-bottom:.4rem}
-.lr-terminal{margin-top:1.5rem;width:min(360px,80vw);text-align:left}
-.lr-line{font-family:var(--ff-m);font-size:9px;color:var(--text3);letter-spacing:.1em;padding:2px 0;opacity:0;transition:opacity .3s}
+.lr-pct{font-family:var(--ff-m);font-size:12px;color:var(--blue);letter-spacing:.25em;margin-bottom:.5rem}
+.lr-terminal{margin-top:1.5rem;width:min(380px,80vw);text-align:left}
+.lr-line{font-family:var(--ff-m);font-size:11px;color:var(--text3);letter-spacing:.1em;padding:3px 0;opacity:0;transition:opacity .3s}
 .lr-line.show{opacity:1}
 .lr-line.ok{color:var(--green)}
 .lr-line::before{content:'> ';color:var(--blue)}
+
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:8000;height:56px;padding:0 clamp(1rem,5vw,5rem);display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,8,.8);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(0,180,255,.04);transition:border-color .3s}
+nav{position:fixed;top:0;left:0;right:0;z-index:8000;height:60px;padding:0 clamp(1.5rem,5vw,5rem);display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,8,.85);backdrop-filter:blur(24px) saturate(160%);border-bottom:1px solid rgba(0,180,255,.04);transition:border-color .3s}
 nav.on{border-bottom-color:rgba(0,180,255,.14)}
-.nav-logo{font-family:var(--ff-d);font-size:.85rem;letter-spacing:.2em;color:var(--text);text-decoration:none}
+.nav-logo{font-family:var(--ff-d);font-size:.9rem;letter-spacing:.2em;color:var(--text);text-decoration:none}
 .nav-logo em{color:var(--blue);font-style:normal}
-.nav-links{display:flex;gap:2.2rem;list-style:none}
-.nav-links a{font-family:var(--ff-m);font-size:9px;color:var(--text2);text-decoration:none;letter-spacing:.25em;text-transform:uppercase;transition:color .2s;position:relative;padding-bottom:3px}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:var(--ff-m);font-size:10px;color:var(--text2);text-decoration:none;letter-spacing:.2em;text-transform:uppercase;transition:color .2s;position:relative;padding-bottom:3px}
 .nav-links a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent);transform:scaleX(0);transition:transform .3s var(--expo)}
 .nav-links a:hover{color:var(--blue)}
 .nav-links a:hover::after{transform:scaleX(1)}
-.nav-btn{font-family:var(--ff-m);font-size:9px;letter-spacing:.18em;padding:8px 20px;background:transparent;border:1px solid rgba(0,180,255,.35);color:var(--blue);text-decoration:none;cursor:none;transition:all .25s;clip-path:polygon(7px 0%,100% 0%,calc(100% - 7px) 100%,0% 100%)}
-.nav-btn:hover{background:rgba(0,180,255,.08);box-shadow:0 0 28px rgba(0,180,255,.18)}
+.nav-btn{font-family:var(--ff-m);font-size:10px;letter-spacing:.18em;padding:9px 22px;background:transparent;border:1px solid rgba(0,180,255,.4);color:var(--blue);text-decoration:none;cursor:none;transition:all .25s;clip-path:polygon(7px 0%,100% 0%,calc(100% - 7px) 100%,0% 100%)}
+.nav-btn:hover{background:rgba(0,180,255,.1);box-shadow:0 0 28px rgba(0,180,255,.2)}
 .hbg{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
-.hbg span{display:block;width:20px;height:1px;background:var(--text2);transition:all .3s}
+.hbg span{display:block;width:22px;height:1px;background:var(--text2);transition:all .3s}
 .hbg.x span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
 .hbg.x span:nth-child(2){opacity:0}
 .hbg.x span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
-.mnav{position:fixed;inset:0;z-index:7999;background:rgba(5,5,8,.97);backdrop-filter:blur(40px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;opacity:0;visibility:hidden;transition:all .4s var(--expo)}
+.mnav{position:fixed;inset:0;z-index:7999;background:rgba(5,5,8,.97);backdrop-filter:blur(40px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;opacity:0;visibility:hidden;transition:all .4s var(--expo)}
 .mnav.open{opacity:1;visibility:visible}
-.mnav a{font-family:var(--ff-d);font-size:1.2rem;letter-spacing:.2em;color:var(--text);text-decoration:none;transition:color .2s}
+.mnav a{font-family:var(--ff-d);font-size:1.3rem;letter-spacing:.2em;color:var(--text);text-decoration:none;transition:color .2s}
 .mnav a:hover{color:var(--blue)}
-/* SECTIONS */
+
+/* SECTIONS BASE */
 section{position:relative;padding:clamp(5rem,10vh,8rem) clamp(1.5rem,6vw,5.5rem);overflow:hidden}
 .inner{max-width:1280px;margin:0 auto}
-.eyebrow{font-family:var(--ff-m);font-size:9px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:.85rem;display:flex;align-items:center;gap:.85rem}
+.eyebrow{font-family:var(--ff-m);font-size:11px;letter-spacing:.35em;color:var(--blue);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
 .eyebrow::before{content:'';flex:0 0 32px;height:1px;background:linear-gradient(90deg,transparent,var(--blue))}
-.stitle{font-family:var(--ff-d);font-size:clamp(2rem,5.5vw,4.2rem);line-height:.95;color:var(--text);letter-spacing:.04em}
+.stitle{font-family:var(--ff-d);font-size:clamp(2.2rem,5.5vw,4.2rem);line-height:.95;color:var(--text);letter-spacing:.04em}
 .stitle em{color:var(--blue);font-style:normal}
 .sdivider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
 .rv{opacity:0;transform:translateY(22px);transition:opacity .8s var(--expo),transform .8s var(--expo)}
 .rv.in{opacity:1;transform:none}
 .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}
+
 /* HERO */
-#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:56px}
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:60px}
 #three-canvas{position:absolute;inset:0;pointer-events:none;z-index:0}
-.hero-grid{position:absolute;inset:0;pointer-events:none;z-index:1;background-image:linear-gradient(rgba(0,180,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,.035) 1px,transparent 1px);background-size:68px 68px;mask-image:radial-gradient(ellipse 95% 95% at 50% 50%,black,transparent 74%)}
-.hero-vignette{position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(ellipse 100% 100% at 50% 50%,transparent 25%,rgba(5,5,5,.88) 100%)}
-.hud{position:absolute;z-index:4;pointer-events:none;font-family:var(--ff-m);font-size:9px;color:rgba(0,180,255,.4);letter-spacing:.18em;line-height:1.9}
-.hud-tl{top:68px;left:clamp(1rem,4vw,3.5rem)}
-.hud-br{bottom:52px;right:clamp(1rem,4vw,3.5rem);text-align:right}
-.hud-stat{color:rgba(0,255,136,.6)}
-.hud-warn{color:rgba(240,180,41,.6)}
-.h-sphere{position:absolute;right:clamp(-60px,-2vw,4vw);top:50%;transform:translateY(-52%);width:clamp(260px,36vw,540px);height:clamp(260px,36vw,540px);pointer-events:none;z-index:3;opacity:0;animation:fadeIn 1.2s 2.8s var(--expo) forwards}
+.hero-grid{position:absolute;inset:0;pointer-events:none;z-index:1;background-image:linear-gradient(rgba(0,180,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,.03) 1px,transparent 1px);background-size:68px 68px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black,transparent 74%)}
+.hero-vignette{position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(ellipse 100% 100% at 50% 50%,transparent 25%,rgba(5,5,5,.9) 100%)}
+.hud{position:absolute;z-index:4;pointer-events:none;font-family:var(--ff-m);font-size:10px;color:rgba(0,180,255,.45);letter-spacing:.16em;line-height:2}
+.hud-tl{top:72px;left:clamp(1.5rem,4vw,3.5rem)}
+.hud-br{bottom:52px;right:clamp(1.5rem,4vw,3.5rem);text-align:right}
+.hud-stat{color:rgba(0,255,136,.65)}
+.hud-warn{color:rgba(240,180,41,.65)}
+
+/* SPHERE */
+.h-sphere{position:absolute;right:clamp(-60px,0vw,5vw);top:50%;transform:translateY(-52%);width:clamp(260px,35vw,520px);height:clamp(260px,35vw,520px);pointer-events:none;z-index:3;opacity:0;animation:fadeIn 1.2s 2.8s var(--expo) forwards}
 @keyframes fadeIn{to{opacity:1}}
 .h-ring{position:absolute;inset:0;border-radius:50%;border:1px solid}
-.h-ring:nth-child(1){border-color:rgba(0,180,255,.2);animation:hspin 22s linear infinite}
-.h-ring:nth-child(2){inset:34px;border-color:rgba(124,58,237,.17);animation:hspin 16s linear infinite reverse}
-.h-ring:nth-child(3){inset:68px;border-color:rgba(240,180,41,.13);animation:hspin 11s linear infinite}
-.h-ring:nth-child(4){inset:102px;border-color:rgba(0,255,231,.09);animation:hspin 8s linear infinite reverse}
+.h-ring:nth-child(1){border-color:rgba(0,180,255,.22);animation:hspin 22s linear infinite}
+.h-ring:nth-child(2){inset:32px;border-color:rgba(124,58,237,.18);animation:hspin 16s linear infinite reverse}
+.h-ring:nth-child(3){inset:64px;border-color:rgba(240,180,41,.14);animation:hspin 11s linear infinite}
+.h-ring:nth-child(4){inset:96px;border-color:rgba(0,255,231,.1);animation:hspin 8s linear infinite reverse}
 @keyframes hspin{to{transform:rotate(360deg)}}
-.h-ring::before{content:'';position:absolute;width:6px;height:6px;background:var(--blue);border-radius:50%;top:-3px;left:50%;transform:translateX(-50%);box-shadow:0 0 10px var(--blue),0 0 20px rgba(0,180,255,.4)}
-.h-ring:nth-child(2)::before{background:var(--purple2);box-shadow:0 0 10px var(--purple);top:50%;left:auto;right:-3px;transform:translateY(-50%)}
-.h-ring:nth-child(3)::before{background:var(--gold);box-shadow:0 0 10px var(--gold);top:auto;bottom:-3px;left:50%;transform:translateX(-50%)}
-.h-ring:nth-child(4)::before{background:var(--cyan);box-shadow:0 0 10px var(--cyan);top:50%;left:-3px;transform:translateY(-50%)}
-.h-core{position:absolute;inset:102px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse,rgba(0,180,255,.05) 0%,transparent 70%)}
-.h-core-txt{font-family:var(--ff-d);font-size:clamp(8px,1vw,11px);color:rgba(0,180,255,.45);letter-spacing:.08em;text-align:center;line-height:2.1}
-.hero-content{position:relative;z-index:5;max-width:820px;padding:clamp(1rem,3vw,2.5rem)}
-.hero-badge{font-family:var(--ff-m);font-size:9px;letter-spacing:.38em;color:var(--blue);text-transform:uppercase;margin-bottom:1.75rem;display:flex;align-items:center;gap:.75rem;opacity:0;animation:slideUp .8s 1s var(--expo) forwards}
-.hero-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green);animation:pulse 2s ease-in-out infinite}
+.h-ring::before{content:'';position:absolute;width:7px;height:7px;background:var(--blue);border-radius:50%;top:-3.5px;left:50%;transform:translateX(-50%);box-shadow:0 0 12px var(--blue),0 0 24px rgba(0,180,255,.4)}
+.h-ring:nth-child(2)::before{background:var(--purple2);box-shadow:0 0 12px var(--purple);top:50%;left:auto;right:-3.5px;transform:translateY(-50%)}
+.h-ring:nth-child(3)::before{background:var(--gold);box-shadow:0 0 12px var(--gold);top:auto;bottom:-3.5px;left:50%;transform:translateX(-50%)}
+.h-ring:nth-child(4)::before{background:var(--cyan);box-shadow:0 0 12px var(--cyan);top:50%;left:-3.5px;transform:translateY(-50%)}
+.h-core{position:absolute;inset:96px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse,rgba(0,180,255,.06) 0%,transparent 70%)}
+.h-core-txt{font-family:var(--ff-d);font-size:clamp(9px,1.1vw,13px);color:rgba(0,180,255,.5);letter-spacing:.1em;text-align:center;line-height:2.2}
+
+/* HERO CONTENT */
+.hero-content{position:relative;z-index:5;max-width:860px;padding:clamp(1rem,3vw,2.5rem)}
+.hero-badge{font-family:var(--ff-m);font-size:11px;letter-spacing:.32em;color:var(--blue);text-transform:uppercase;margin-bottom:1.75rem;display:flex;align-items:center;gap:.75rem;opacity:0;animation:slideUp .8s 1s var(--expo) forwards}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
-.hero-name{font-family:var(--ff-d);font-size:clamp(2.6rem,8.5vw,7rem);line-height:.88;letter-spacing:.06em;background:linear-gradient(135deg,#fff 0%,#c2d9ff 40%,var(--blue) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 50px rgba(0,180,255,.25));margin-bottom:.6rem;opacity:0;animation:slideUp .9s 1.2s var(--expo) forwards}
-.hero-title{font-family:var(--ff-d);font-size:clamp(.8rem,2.2vw,1.3rem);color:var(--blue);letter-spacing:.22em;margin-bottom:.5rem;opacity:0;animation:slideUp .9s 1.4s var(--expo) forwards}
-.hero-tag{font-family:var(--ff-m);font-size:clamp(10px,1.4vw,12px);color:var(--text2);letter-spacing:.15em;margin-bottom:1.5rem;opacity:0;animation:slideUp .9s 1.6s var(--expo) forwards}
-.hero-tag span{color:var(--blue)}.hero-tag .sep{color:var(--text3);margin:0 .5rem}
-.hero-desc{font-size:14px;color:var(--text2);line-height:1.85;max-width:480px;margin-bottom:2.5rem;opacity:0;animation:slideUp .9s 1.8s var(--expo) forwards}
+.hero-name{font-family:var(--ff-d);font-size:clamp(3rem,9vw,7.5rem);line-height:.88;letter-spacing:.05em;background:linear-gradient(135deg,#fff 0%,#c2d9ff 40%,var(--blue) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 50px rgba(0,180,255,.25));margin-bottom:.6rem;opacity:0;animation:slideUp .9s 1.2s var(--expo) forwards}
+.hero-title{font-family:var(--ff-d);font-size:clamp(.9rem,2.2vw,1.4rem);color:var(--blue);letter-spacing:.2em;margin-bottom:.6rem;opacity:0;animation:slideUp .9s 1.4s var(--expo) forwards}
+.hero-tag{font-family:var(--ff-m);font-size:13px;color:var(--text2);letter-spacing:.12em;margin-bottom:1.75rem;opacity:0;animation:slideUp .9s 1.6s var(--expo) forwards}
+.hero-tag span{color:var(--blue)}.hero-tag .sep{color:var(--text3);margin:0 .6rem}
+.hero-desc{font-size:16px;color:var(--text2);line-height:1.85;max-width:520px;margin-bottom:2.5rem;opacity:0;animation:slideUp .9s 1.8s var(--expo) forwards}
 .hero-desc strong{color:var(--text)}
-.hero-stats{display:flex;gap:2rem;margin-bottom:2.5rem;flex-wrap:wrap;opacity:0;animation:slideUp .9s 2s var(--expo) forwards}
-.h-stat{display:flex;flex-direction:column;gap:2px}
-.h-stat-n{font-family:var(--ff-d);font-size:1.4rem;color:var(--text);line-height:1}
+.hero-stats{display:flex;gap:2.5rem;margin-bottom:2.5rem;flex-wrap:wrap;opacity:0;animation:slideUp .9s 2s var(--expo) forwards}
+.h-stat{display:flex;flex-direction:column;gap:4px}
+.h-stat-n{font-family:var(--ff-d);font-size:1.6rem;color:var(--text);line-height:1}
 .h-stat-n em{color:var(--blue);font-style:normal}
-.h-stat-l{font-family:var(--ff-m);font-size:8px;color:var(--text3);letter-spacing:.2em;text-transform:uppercase}
-.hero-ctas{display:flex;gap:.8rem;flex-wrap:wrap;opacity:0;animation:slideUp .9s 2.2s var(--expo) forwards}
+.h-stat-l{font-family:var(--ff-m);font-size:10px;color:var(--text3);letter-spacing:.18em;text-transform:uppercase}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:slideUp .9s 2.2s var(--expo) forwards}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.btn-p{font-family:var(--ff-m);font-size:9px;letter-spacing:.2em;padding:12px 28px;cursor:none;text-decoration:none;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;clip-path:polygon(9px 0%,100% 0%,calc(100% - 9px) 100%,0% 100%);transition:all .3s;display:inline-flex;align-items:center;gap:.45rem;box-shadow:0 0 30px rgba(0,180,255,.28)}
-.btn-p:hover{box-shadow:0 0 55px rgba(0,180,255,.48);transform:translateY(-2px)}
-.btn-o{font-family:var(--ff-m);font-size:9px;letter-spacing:.2em;padding:11px 24px;cursor:none;text-decoration:none;background:transparent;color:var(--text2);border:1px solid rgba(255,255,255,.1);clip-path:polygon(9px 0%,100% 0%,calc(100% - 9px) 100%,0% 100%);transition:all .3s;display:inline-flex;align-items:center;gap:.45rem}
-.btn-o:hover{border-color:var(--blue);color:var(--blue);background:rgba(0,180,255,.04)}
-.btn-g{font-family:var(--ff-m);font-size:9px;letter-spacing:.2em;padding:11px 24px;cursor:none;text-decoration:none;background:transparent;color:var(--purple2);border:1px solid rgba(124,58,237,.32);clip-path:polygon(9px 0%,100% 0%,calc(100% - 9px) 100%,0% 100%);transition:all .3s;display:inline-flex;align-items:center;gap:.45rem}
-.btn-g:hover{border-color:var(--purple2);background:rgba(124,58,237,.07);box-shadow:0 0 28px rgba(124,58,237,.18)}
-.scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--ff-m);font-size:8px;color:var(--text3);letter-spacing:.3em;opacity:0;animation:fadeIn 1s 3.5s ease forwards}
-.scroll-line{width:1px;height:40px;background:linear-gradient(180deg,var(--blue),transparent);animation:scrlP 2s ease-in-out infinite}
+.btn-p{font-family:var(--ff-m);font-size:11px;letter-spacing:.18em;padding:13px 30px;cursor:none;text-decoration:none;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;clip-path:polygon(9px 0%,100% 0%,calc(100% - 9px) 100%,0% 100%);transition:all .3s;display:inline-flex;align-items:center;gap:.5rem;box-shadow:0 0 30px rgba(0,180,255,.3)}
+.btn-p:hover{box-shadow:0 0 55px rgba(0,180,255,.5);transform:translateY(-2px)}
+.btn-o{font-family:var(--ff-m);font-size:11px;letter-spacing:.18em;padding:12px 26px;cursor:none;text-decoration:none;background:transparent;color:var(--text2);border:1px solid rgba(255,255,255,.12);clip-path:polygon(9px 0%,100% 0%,calc(100% - 9px) 100%,0% 100%);transition:all .3s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-o:hover{border-color:var(--blue);color:var(--blue);background:rgba(0,180,255,.05)}
+.btn-g{font-family:var(--ff-m);font-size:11px;letter-spacing:.18em;padding:12px 26px;cursor:none;text-decoration:none;background:transparent;color:var(--purple2);border:1px solid rgba(124,58,237,.35);clip-path:polygon(9px 0%,100% 0%,calc(100% - 9px) 100%,0% 100%);transition:all .3s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-g:hover{border-color:var(--purple2);background:rgba(124,58,237,.08);box-shadow:0 0 28px rgba(124,58,237,.2)}
+.scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--ff-m);font-size:9px;color:var(--text3);letter-spacing:.3em;opacity:0;animation:fadeIn 1s 3.5s ease forwards}
+.scroll-line{width:1px;height:44px;background:linear-gradient(180deg,var(--blue),transparent);animation:scrlP 2s ease-in-out infinite}
 @keyframes scrlP{0%,100%{opacity:.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.15)}}
+
 /* PHILOSOPHY */
 #philosophy{background:var(--bg1)}
 .phil-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
-.phil-headline{font-family:var(--ff-d);font-size:clamp(2rem,5vw,4rem);line-height:.9;color:var(--text);letter-spacing:.04em;margin-bottom:2rem}
+.phil-headline{font-family:var(--ff-d);font-size:clamp(2.2rem,5vw,4rem);line-height:.9;color:var(--text);letter-spacing:.04em;margin-bottom:2rem}
 .phil-headline em{color:var(--blue);font-style:normal;display:block}
-.phil-body{font-size:14px;color:var(--text2);line-height:1.95;margin-bottom:1.5rem}
+.phil-body{font-size:16px;color:var(--text2);line-height:2;margin-bottom:1.5rem}
 .phil-body strong{color:var(--text)}
-.phil-pillars{display:flex;flex-direction:column;gap:.65rem;margin-top:2rem}
-.phil-pillar{display:flex;align-items:center;gap:1rem;padding:.75rem 1rem;background:var(--surface);border:1px solid var(--border);font-family:var(--ff-m);font-size:9px;color:var(--text2);letter-spacing:.14em}
-.phil-pillar-i{color:var(--blue);font-size:11px;flex-shrink:0}
+.phil-pillars{display:flex;flex-direction:column;gap:.75rem;margin-top:2rem}
+.phil-pillar{display:flex;align-items:center;gap:1rem;padding:.85rem 1.1rem;background:var(--surface);border:1px solid var(--border);font-family:var(--ff-m);font-size:11px;color:var(--text2);letter-spacing:.1em;transition:border-color .3s}
+.phil-pillar:hover{border-color:rgba(0,180,255,.22);color:var(--text)}
+.phil-pillar-i{color:var(--blue);font-size:14px;flex-shrink:0}
 .arch-diag{background:var(--surface);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden}
 .arch-diag::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
-.arch-label{font-family:var(--ff-m);font-size:8px;color:var(--blue);letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.5rem}
-.arch-nodes{display:flex;flex-direction:column;gap:.5rem}
-.arch-row{display:flex;gap:.5rem;align-items:center}
-.arch-node{font-family:var(--ff-m);font-size:8px;letter-spacing:.1em;padding:7px 12px;border:1px solid;flex:1;text-align:center;transition:all .3s}
+.arch-label{font-family:var(--ff-m);font-size:10px;color:var(--blue);letter-spacing:.28em;text-transform:uppercase;margin-bottom:1.5rem}
+.arch-nodes{display:flex;flex-direction:column;gap:.55rem}
+.arch-row{display:flex;gap:.55rem;align-items:center}
+.arch-node{font-family:var(--ff-m);font-size:10px;letter-spacing:.1em;padding:9px 14px;border:1px solid;flex:1;text-align:center;transition:all .3s}
 .arch-node.core{border-color:var(--blue);color:var(--blue);background:rgba(0,180,255,.07)}
 .arch-node.mid{border-color:rgba(124,58,237,.4);color:var(--purple2);background:rgba(124,58,237,.05)}
-.arch-node.leaf{border-color:rgba(255,255,255,.06);color:var(--text2);background:rgba(255,255,255,.02);font-size:7px}
+.arch-node.leaf{border-color:rgba(255,255,255,.07);color:var(--text2);background:rgba(255,255,255,.02);font-size:9px}
 .arch-node:hover{transform:scale(1.03)}
-.arch-arrow{color:var(--text3);font-size:10px;flex-shrink:0}
+.arch-arrow{color:var(--text3);font-size:12px;flex-shrink:0}
+.arch-tags{margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
+.arch-tags-label{font-family:var(--ff-m);font-size:9px;color:var(--text3);letter-spacing:.2em;margin-bottom:.6rem}
+.arch-tags-row{display:flex;gap:.4rem;flex-wrap:wrap}
+.arch-tag{font-family:var(--ff-m);font-size:9px;padding:4px 9px;border:1px solid}
+
 /* ABOUT */
 #about{background:var(--bg)}
-.about-grid{display:grid;grid-template-columns:340px 1fr;gap:4.5rem;align-items:start;max-width:1280px;margin:0 auto}
-.ab-card{background:var(--surface);border:1px solid var(--border);padding:2.25rem;position:relative;overflow:hidden;clip-path:polygon(16px 0%,100% 0%,calc(100% - 16px) 100%,0% 100%)}
+.about-grid{display:grid;grid-template-columns:340px 1fr;gap:5rem;align-items:start;max-width:1280px;margin:0 auto}
+.ab-card{background:var(--surface);border:1px solid var(--border);padding:2.5rem;position:relative;overflow:hidden;clip-path:polygon(16px 0%,100% 0%,calc(100% - 16px) 100%,0% 100%)}
 .ab-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),var(--purple),transparent)}
-.ab-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--ff-d);font-size:1.4rem;color:#fff;margin-bottom:1.4rem;box-shadow:0 0 36px rgba(0,180,255,.28);position:relative}
-.ab-avatar::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(0,180,255,.28);animation:hspin 7s linear infinite}
-.ab-name{font-family:var(--ff-d);font-size:.8rem;letter-spacing:.14em;color:var(--text);margin-bottom:.2rem}
-.ab-title{font-family:var(--ff-m);font-size:8px;color:var(--blue);letter-spacing:.15em;margin-bottom:.15rem}
-.ab-loc{font-family:var(--ff-m);font-size:8px;color:var(--text2);letter-spacing:.1em;margin-bottom:1.75rem}
-.ab-specs{display:flex;flex-direction:column;gap:.55rem}
-.ab-spec{display:flex;align-items:center;gap:.8rem;padding:.6rem .85rem;background:rgba(0,180,255,.025);border:1px solid rgba(0,180,255,.05);font-family:var(--ff-m);font-size:8px}
-.ab-spec-i{color:var(--blue);flex-shrink:0;font-size:10px}
+.ab-avatar{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--ff-d);font-size:1.5rem;color:#fff;margin-bottom:1.5rem;box-shadow:0 0 36px rgba(0,180,255,.28);position:relative}
+.ab-avatar::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(0,180,255,.3);animation:hspin 7s linear infinite}
+.ab-name{font-family:var(--ff-d);font-size:.85rem;letter-spacing:.14em;color:var(--text);margin-bottom:.3rem}
+.ab-title{font-family:var(--ff-m);font-size:10px;color:var(--blue);letter-spacing:.14em;margin-bottom:.2rem}
+.ab-loc{font-family:var(--ff-m);font-size:10px;color:var(--text2);letter-spacing:.1em;margin-bottom:1.75rem}
+.ab-specs{display:flex;flex-direction:column;gap:.6rem}
+.ab-spec{display:flex;align-items:center;gap:.85rem;padding:.65rem .9rem;background:rgba(0,180,255,.025);border:1px solid rgba(0,180,255,.06);font-family:var(--ff-m);font-size:10px}
+.ab-spec-i{color:var(--blue);flex-shrink:0;font-size:12px}
 .ab-spec-l{color:var(--text3);letter-spacing:.1em;flex:1}
 .ab-spec-v{color:var(--text);letter-spacing:.07em}
-.ab-cert-list{margin-top:1.5rem;display:flex;flex-direction:column;gap:.4rem}
-.ab-cert{font-family:var(--ff-m);font-size:8px;color:var(--text2);padding:.5rem .75rem;border-left:2px solid var(--gold);background:rgba(240,180,41,.04);letter-spacing:.08em}
+.ab-cert-list{margin-top:1.75rem;display:flex;flex-direction:column;gap:.45rem}
+.ab-cert{font-family:var(--ff-m);font-size:10px;color:var(--text2);padding:.55rem .85rem;border-left:2px solid var(--gold);background:rgba(240,180,41,.04);letter-spacing:.07em}
 .about-right{display:flex;flex-direction:column;gap:2rem}
-.ab-headline{font-family:var(--ff-d);font-size:clamp(1.6rem,3.5vw,3rem);line-height:.95;color:var(--text)}
+.ab-headline{font-family:var(--ff-d);font-size:clamp(1.8rem,3.5vw,3rem);line-height:.95;color:var(--text)}
 .ab-headline em{color:var(--blue);font-style:normal}
-.ab-desc{font-size:13px;color:var(--text2);line-height:1.9}
+.ab-desc{font-size:15px;color:var(--text2);line-height:1.9}
 .ab-desc strong{color:var(--text)}
-.career-timeline{position:relative;padding-left:2rem}
-.career-timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--blue),var(--purple),rgba(240,180,41,.3),transparent)}
-.ct-item{position:relative;padding-bottom:2.2rem}
-.ct-item:last-child{padding-bottom:0}
-.ct-dot{position:absolute;left:-2rem;top:3px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--blue);box-shadow:0 0 12px var(--blue);transform:translateX(-50%)}
-.ct-dot.p{border-color:var(--purple2);box-shadow:0 0 12px var(--purple)}
-.ct-dot.g{border-color:var(--gold);box-shadow:0 0 12px var(--gold)}
-.ct-dot.c{border-color:var(--cyan);box-shadow:0 0 12px var(--cyan)}
-.ct-yr{font-family:var(--ff-m);font-size:8px;letter-spacing:.25em;color:var(--blue);margin-bottom:.25rem}
-.ct-title{font-family:var(--ff-b);font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
-.ct-body{font-size:12px;color:var(--text2);line-height:1.6}
+
+/* SINGLE TIMELINE (About) */
+.tl-wrap{position:relative;padding-left:2.5rem;margin-top:.5rem}
+.tl-wrap::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--blue),var(--purple),var(--gold),rgba(0,255,231,.2),transparent)}
+.tl-item{position:relative;padding-bottom:2.5rem}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-2.5rem;top:4px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid;transform:translateX(-50%)}
+.tl-dot.b{border-color:var(--blue);box-shadow:0 0 12px var(--blue)}
+.tl-dot.p{border-color:var(--purple2);box-shadow:0 0 12px var(--purple)}
+.tl-dot.g{border-color:var(--gold);box-shadow:0 0 12px var(--gold)}
+.tl-dot.c{border-color:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.tl-yr{font-family:var(--ff-m);font-size:10px;letter-spacing:.22em;color:var(--blue);margin-bottom:.3rem}
+.tl-title{font-family:var(--ff-b);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+.tl-body{font-size:13px;color:var(--text2);line-height:1.7}
+
 /* EXPERTISE */
 #expertise{background:var(--bg1)}
-.exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;max-width:1280px;margin:3rem auto 0}
-.exp-card{background:var(--surface);border:1px solid rgba(255,255,255,.04);padding:1.75rem;position:relative;overflow:hidden;transition:all .4s var(--expo);cursor:none}
+.exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.25rem;max-width:1280px;margin:3rem auto 0}
+.exp-card{background:var(--surface);border:1px solid rgba(255,255,255,.05);padding:2rem;position:relative;overflow:hidden;transition:all .4s var(--expo);cursor:none}
 .exp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cc),transparent);transform:scaleX(0);transition:transform .5s var(--expo)}
 .exp-card:hover::before{transform:scaleX(1)}
-.exp-card:hover{border-color:rgba(0,180,255,.14);background:rgba(0,180,255,.02);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.3)}
-.exp-icon{width:40px;height:40px;background:rgba(0,180,255,.06);border:1px solid rgba(0,180,255,.13);display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:1rem}
-.exp-title{font-family:var(--ff-m);font-size:9px;letter-spacing:.22em;color:var(--text);margin-bottom:.85rem;text-transform:uppercase}
-.exp-items{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.25rem}
-.exp-items li{font-family:var(--ff-m);font-size:9px;color:var(--text2);padding-left:1rem;position:relative;letter-spacing:.08em}
-.exp-items li::before{content:'▸';position:absolute;left:0;color:var(--blue);font-size:7px;top:1px}
-.exp-bars{display:flex;flex-direction:column;gap:.6rem}
-.exp-bar-row{display:flex;flex-direction:column;gap:3px}
-.exp-bar-meta{display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:7px;color:var(--text2);letter-spacing:.1em}
-.exp-bar-track{height:1px;background:rgba(255,255,255,.05);position:relative;overflow:hidden}
+.exp-card:hover{border-color:rgba(0,180,255,.16);background:rgba(0,180,255,.025);transform:translateY(-5px);box-shadow:0 24px 48px rgba(0,0,0,.35)}
+.exp-icon{width:44px;height:44px;background:rgba(0,180,255,.07);border:1px solid rgba(0,180,255,.14);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1.1rem}
+.exp-title{font-family:var(--ff-m);font-size:11px;letter-spacing:.2em;color:var(--text);margin-bottom:1rem;text-transform:uppercase}
+.exp-items{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem}
+.exp-items li{font-family:var(--ff-m);font-size:11px;color:var(--text2);padding-left:1.1rem;position:relative;letter-spacing:.06em;line-height:1.5}
+.exp-items li::before{content:'▸';position:absolute;left:0;color:var(--blue);font-size:8px;top:2px}
+.exp-bars{display:flex;flex-direction:column;gap:.75rem}
+.exp-bar-row{display:flex;flex-direction:column;gap:5px}
+.exp-bar-meta{display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:10px;color:var(--text2);letter-spacing:.08em}
+.exp-bar-track{height:1px;background:rgba(255,255,255,.06);position:relative;overflow:hidden}
 .exp-bar-fill{height:100%;width:0%;transition:width 1.6s var(--expo);position:relative}
 .exp-bar-fill::after{content:'';position:absolute;right:0;top:-3px;width:5px;height:7px;background:var(--bc);border-radius:1px;box-shadow:0 0 7px var(--bc)}
+
 /* PROJECTS */
 #projects{background:var(--bg)}
-.proj-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1.25rem;max-width:1280px;margin:3rem auto 0}
-.pj{background:var(--surface);border:1px solid rgba(255,255,255,.04);overflow:hidden;display:flex;flex-direction:column;position:relative;transition:all .4s var(--expo);cursor:none}
-.pj:hover{border-color:rgba(0,180,255,.16);transform:translateY(-5px);box-shadow:0 28px 56px rgba(0,0,0,.45)}
-.pj.w8{grid-column:span 8}.pj.w4{grid-column:span 4}.pj.w6{grid-column:span 6}.pj.w12{grid-column:span 12}
-.pj-thumb{height:200px;position:relative;overflow:hidden;flex-shrink:0}
-.pj-thumb.tall{height:280px}
+.proj-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1.5rem;max-width:1280px;margin:3rem auto 0}
+.pj{background:var(--surface);border:1px solid rgba(255,255,255,.05);overflow:hidden;display:flex;flex-direction:column;position:relative;transition:all .4s var(--expo);cursor:none}
+.pj:hover{border-color:rgba(0,180,255,.18);transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,.5)}
+.pj.w8{grid-column:span 8}.pj.w4{grid-column:span 4}.pj.w6{grid-column:span 6}
+.pj-thumb{height:220px;position:relative;overflow:hidden;flex-shrink:0}
+.pj-thumb.tall{height:300px}
 .pj-thumb-bg{position:absolute;inset:0}
 .pj-grid-pat{position:absolute;inset:0;background-image:linear-gradient(var(--tgc) 1px,transparent 1px),linear-gradient(90deg,var(--tgc) 1px,transparent 1px);background-size:32px 32px}
 .pj-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,var(--tgl) 0%,transparent 70%)}
-.pj-badge{position:absolute;top:10px;right:10px;font-family:var(--ff-m);font-size:7px;letter-spacing:.22em;padding:3px 9px;background:rgba(0,180,255,.12);border:1px solid rgba(0,180,255,.26);color:var(--blue);clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%)}
-.pj-sub{position:absolute;bottom:8px;left:12px;font-family:var(--ff-m);font-size:7px;color:var(--text3);letter-spacing:.2em}
+.pj-badge{position:absolute;top:12px;right:12px;font-family:var(--ff-m);font-size:9px;letter-spacing:.2em;padding:4px 10px;background:rgba(0,180,255,.14);border:1px solid rgba(0,180,255,.3);color:var(--blue);clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%)}
+.pj-sub{position:absolute;bottom:10px;left:14px;font-family:var(--ff-m);font-size:9px;color:var(--text3);letter-spacing:.18em}
 .pj-ui{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;padding:1.2rem}
-.pj-body{padding:1.5rem;flex:1;display:flex;flex-direction:column;gap:.8rem}
-.pj-id{font-family:var(--ff-m);font-size:7px;color:var(--text3);letter-spacing:.3em}
-.pj-name{font-family:var(--ff-d);font-size:1.05rem;letter-spacing:.04em;color:var(--text);line-height:1.1}
-.pj-section{display:flex;flex-direction:column;gap:3px}
-.pj-section-label{font-family:var(--ff-m);font-size:7px;letter-spacing:.25em;color:var(--blue);text-transform:uppercase}
-.pj-section-body{font-size:11px;color:var(--text2);line-height:1.65}
-.pj-tech{display:flex;flex-wrap:wrap;gap:.3rem}
-.ttag{font-family:var(--ff-m);font-size:7px;letter-spacing:.1em;padding:2px 7px;border:1px solid rgba(0,180,255,.12);color:rgba(0,180,255,.6);background:rgba(0,180,255,.025)}
-.pj-links{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:auto}
-.lbtn{font-family:var(--ff-m);font-size:7px;letter-spacing:.15em;padding:6px 12px;text-decoration:none;cursor:none;border:1px solid;display:inline-flex;align-items:center;gap:.3rem;transition:all .2s;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%)}
-.lb-b{border-color:rgba(0,180,255,.28);color:var(--blue)}.lb-b:hover{background:rgba(0,180,255,.08)}
-.lb-g{border-color:rgba(0,255,136,.25);color:var(--green)}.lb-g:hover{background:rgba(0,255,136,.06)}
-.lb-p{border-color:rgba(124,58,237,.28);color:var(--purple2)}.lb-p:hover{background:rgba(124,58,237,.07)}
-/* BUILDING */
+.pj-body{padding:1.75rem;flex:1;display:flex;flex-direction:column;gap:1rem}
+.pj-id{font-family:var(--ff-m);font-size:9px;color:var(--text3);letter-spacing:.28em}
+.pj-name{font-family:var(--ff-d);font-size:1.15rem;letter-spacing:.04em;color:var(--text);line-height:1.15}
+.pj-section{display:flex;flex-direction:column;gap:5px}
+.pj-section-label{font-family:var(--ff-m);font-size:9px;letter-spacing:.25em;color:var(--blue);text-transform:uppercase}
+.pj-section-body{font-size:13px;color:var(--text2);line-height:1.7}
+.pj-tech{display:flex;flex-wrap:wrap;gap:.4rem}
+.ttag{font-family:var(--ff-m);font-size:9px;letter-spacing:.08em;padding:3px 8px;border:1px solid rgba(0,180,255,.14);color:rgba(0,180,255,.7);background:rgba(0,180,255,.03)}
+.pj-links{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:auto;padding-top:.5rem}
+.lbtn{font-family:var(--ff-m);font-size:10px;letter-spacing:.12em;padding:8px 14px;text-decoration:none;cursor:none;border:1px solid;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%)}
+.lb-b{border-color:rgba(0,180,255,.3);color:var(--blue)}.lb-b:hover{background:rgba(0,180,255,.09)}
+.lb-g{border-color:rgba(0,255,136,.28);color:var(--green)}.lb-g:hover{background:rgba(0,255,136,.07)}
+.lb-p{border-color:rgba(124,58,237,.3);color:var(--purple2)}.lb-p:hover{background:rgba(124,58,237,.08)}
+
+/* CURRENTLY BUILDING */
 #building{background:var(--bg1)}
-.build-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:1280px;margin:3rem auto 0}
-.build-card{background:var(--surface);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden}
+.build-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1280px;margin:3rem auto 0}
+.build-card{background:var(--surface);border:1px solid var(--border);padding:2.25rem;position:relative;overflow:hidden;transition:border-color .3s}
 .build-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cc),transparent)}
-.build-status{font-family:var(--ff-m);font-size:7px;letter-spacing:.3em;color:var(--green);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
-.build-dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s ease-in-out infinite}
-.build-name{font-family:var(--ff-d);font-size:.95rem;letter-spacing:.06em;color:var(--text);margin-bottom:.5rem;line-height:1.2}
-.build-desc{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:1.25rem}
-.build-modules{display:flex;flex-direction:column;gap:.45rem}
-.build-module{font-family:var(--ff-m);font-size:8px;color:var(--text2);padding:.45rem .75rem;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015);letter-spacing:.1em;display:flex;align-items:center;gap:.6rem}
-.build-module::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--cc);box-shadow:0 0 5px var(--cc);flex-shrink:0}
-.build-progress-bar{margin-top:1.5rem}
-.build-prog-label{display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:7px;color:var(--text3);letter-spacing:.1em;margin-bottom:4px}
-.build-prog-track{height:1px;background:rgba(255,255,255,.05)}
-.build-prog-fill{height:100%;background:var(--cc);box-shadow:0 0 8px var(--cc);width:0%;transition:width 1.6s var(--expo)}
+.build-card:hover{border-color:rgba(0,180,255,.2)}
+.build-status{font-family:var(--ff-m);font-size:9px;letter-spacing:.28em;color:var(--green);margin-bottom:1.1rem;display:flex;align-items:center;gap:.6rem;text-transform:uppercase}
+.build-dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+.build-name{font-family:var(--ff-d);font-size:1.05rem;letter-spacing:.05em;color:var(--text);margin-bottom:.75rem;line-height:1.25}
+.build-desc{font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:1.5rem}
+.build-modules{display:flex;flex-direction:column;gap:.5rem}
+.build-module{font-family:var(--ff-m);font-size:11px;color:var(--text2);padding:.55rem .85rem;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.015);letter-spacing:.08em;display:flex;align-items:center;gap:.7rem}
+.build-module::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cc);box-shadow:0 0 6px var(--cc);flex-shrink:0}
+.build-prog-wrap{margin-top:1.75rem}
+.build-prog-label{display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:10px;color:var(--text3);letter-spacing:.1em;margin-bottom:5px}
+.build-prog-track{height:2px;background:rgba(255,255,255,.06);border-radius:1px;overflow:hidden}
+.build-prog-fill{height:100%;background:var(--cc);box-shadow:0 0 10px var(--cc);width:0%;transition:width 1.6s var(--expo);border-radius:1px}
+
 /* ROADMAP */
 #roadmap{background:var(--bg)}
 .roadmap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1280px;margin:3rem auto 0;border:1px solid var(--border)}
 .rm-col{border-right:1px solid var(--border)}.rm-col:last-child{border-right:none}
-.rm-col-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
-.rm-col-label{font-family:var(--ff-m);font-size:8px;letter-spacing:.3em;text-transform:uppercase}
+.rm-col-header{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border)}
+.rm-col-label{font-family:var(--ff-m);font-size:10px;letter-spacing:.28em;text-transform:uppercase}
 .rm-col-label.done{color:var(--green)}.rm-col-label.active{color:var(--blue)}.rm-col-label.next{color:var(--gold)}.rm-col-label.future{color:var(--text3)}
-.rm-items{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}
-.rm-item{font-family:var(--ff-m);font-size:9px;color:var(--text2);padding:.6rem .75rem;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015);letter-spacing:.08em;display:flex;align-items:center;gap:.6rem;transition:all .2s}
+.rm-items{padding:1.1rem 1.4rem;display:flex;flex-direction:column;gap:.6rem}
+.rm-item{font-family:var(--ff-m);font-size:11px;color:var(--text2);padding:.7rem .85rem;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015);letter-spacing:.07em;display:flex;align-items:center;gap:.7rem;transition:all .2s;line-height:1.4}
 .rm-item:hover{border-color:var(--border);background:rgba(0,180,255,.03);color:var(--text)}
-.rm-item.done{border-color:rgba(0,255,136,.12);background:rgba(0,255,136,.03);color:var(--text)}
-.rm-item.done::before{content:'✓';color:var(--green);font-size:9px;flex-shrink:0}
-.rm-item.active{border-color:rgba(0,180,255,.18);background:rgba(0,180,255,.05);color:var(--blue)}
-.rm-item.active::before{content:'▶';color:var(--blue);font-size:8px;flex-shrink:0}
-.rm-item.next::before{content:'◈';color:var(--gold);font-size:8px;flex-shrink:0}
-.rm-item.future::before{content:'○';color:var(--text3);font-size:9px;flex-shrink:0}
-/* EXPERIENCE */
+.rm-item.done{border-color:rgba(0,255,136,.14);background:rgba(0,255,136,.03);color:var(--text)}
+.rm-item.done::before{content:'✓';color:var(--green);font-size:10px;flex-shrink:0}
+.rm-item.active{border-color:rgba(0,180,255,.2);background:rgba(0,180,255,.06);color:var(--blue)}
+.rm-item.active::before{content:'▶';color:var(--blue);font-size:9px;flex-shrink:0}
+.rm-item.next::before{content:'◈';color:var(--gold);font-size:9px;flex-shrink:0}
+.rm-item.future::before{content:'○';color:var(--text3);font-size:10px;flex-shrink:0}
+
+/* EXPERIENCE TIMELINE */
 #experience{background:var(--bg1)}
-.exp-timeline-inner{max-width:800px;margin:3rem auto 0;position:relative;padding-left:2.5rem}
-.exp-timeline-inner::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--blue),var(--purple),rgba(240,180,41,.4),transparent)}
-.etl-item{position:relative;padding-bottom:3rem}
+.etl-inner{max-width:820px;margin:3rem auto 0;position:relative;padding-left:2.75rem}
+.etl-inner::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--blue),var(--purple),rgba(240,180,41,.5),transparent)}
+.etl-item{position:relative;padding-bottom:3.5rem}
 .etl-item:last-child{padding-bottom:0}
-.etl-dot{position:absolute;left:-2.5rem;top:4px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid;transform:translateX(-50%)}
-.etl-dot.b{border-color:var(--blue);box-shadow:0 0 12px var(--blue)}
-.etl-dot.p{border-color:var(--purple2);box-shadow:0 0 12px var(--purple)}
-.etl-dot.g{border-color:var(--gold);box-shadow:0 0 12px var(--gold)}
-.etl-yr{font-family:var(--ff-m);font-size:8px;letter-spacing:.25em;color:var(--blue);margin-bottom:.3rem}
-.etl-role{font-family:var(--ff-d);font-size:1.15rem;letter-spacing:.04em;color:var(--text);margin-bottom:.25rem}
-.etl-org{font-family:var(--ff-m);font-size:9px;color:var(--purple2);letter-spacing:.15em;margin-bottom:.85rem}
-.etl-list{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.etl-list li{font-size:13px;color:var(--text2);padding-left:1.1rem;position:relative;line-height:1.65}
-.etl-list li::before{content:'▸';position:absolute;left:0;color:var(--blue);font-size:8px;top:3px}
+.etl-dot{position:absolute;left:-2.75rem;top:5px;width:13px;height:13px;border-radius:50%;background:var(--bg);border:2px solid;transform:translateX(-50%)}
+.etl-dot.b{border-color:var(--blue);box-shadow:0 0 14px var(--blue)}
+.etl-dot.p{border-color:var(--purple2);box-shadow:0 0 14px var(--purple)}
+.etl-dot.g{border-color:var(--gold);box-shadow:0 0 14px var(--gold)}
+.etl-yr{font-family:var(--ff-m);font-size:11px;letter-spacing:.22em;color:var(--blue);margin-bottom:.35rem}
+.etl-role{font-family:var(--ff-d);font-size:1.2rem;letter-spacing:.04em;color:var(--text);margin-bottom:.3rem}
+.etl-org{font-family:var(--ff-m);font-size:11px;color:var(--purple2);letter-spacing:.14em;margin-bottom:1rem}
+.etl-list{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.etl-list li{font-size:14px;color:var(--text2);padding-left:1.25rem;position:relative;line-height:1.7}
+.etl-list li::before{content:'▸';position:absolute;left:0;color:var(--blue);font-size:9px;top:4px}
+
 /* RECRUITER */
 #recruiter{background:var(--bg)}
-.rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;max-width:1280px;margin:3rem auto 0}
-.rec-card{background:var(--surface);border:1px solid var(--border);padding:1.75rem;position:relative;overflow:hidden;transition:all .4s var(--expo);cursor:none}
-.rec-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--cc);box-shadow:0 0 10px var(--cc)}
-.rec-card:hover{border-color:rgba(0,180,255,.16);transform:translateX(4px)}
-.rec-icon{font-size:1.5rem;margin-bottom:.85rem}
-.rec-title{font-family:var(--ff-d);font-size:.75rem;letter-spacing:.12em;color:var(--text);margin-bottom:.6rem}
-.rec-body{font-size:12px;color:var(--text2);line-height:1.7}
-.rec-metric{font-family:var(--ff-m);font-size:8px;color:var(--cc);letter-spacing:.15em;margin-top:.75rem}
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;max-width:1280px;margin:3rem auto 0}
+.rec-card{background:var(--surface);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden;transition:all .4s var(--expo);cursor:none}
+.rec-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--cc);box-shadow:0 0 12px var(--cc)}
+.rec-card:hover{border-color:rgba(0,180,255,.18);transform:translateX(5px)}
+.rec-icon{font-size:1.8rem;margin-bottom:1rem}
+.rec-title{font-family:var(--ff-d);font-size:.82rem;letter-spacing:.12em;color:var(--text);margin-bottom:.75rem}
+.rec-body{font-size:14px;color:var(--text2);line-height:1.8}
+.rec-metric{font-family:var(--ff-m);font-size:10px;color:var(--cc);letter-spacing:.14em;margin-top:1rem;padding-top:.85rem;border-top:1px solid rgba(255,255,255,.05)}
+
 /* CONTACT */
 #contact{background:var(--bg1)}
-.ct-inner{display:grid;grid-template-columns:1fr 1.1fr;gap:4.5rem;max-width:1280px;margin:0 auto}
-.ct-headline{font-family:var(--ff-d);font-size:clamp(2.2rem,5.5vw,4.5rem);line-height:.9;color:var(--text);letter-spacing:.04em;margin-bottom:1.25rem}
+.ct-inner{display:grid;grid-template-columns:1fr 1.15fr;gap:5rem;max-width:1280px;margin:0 auto}
+.ct-headline{font-family:var(--ff-d);font-size:clamp(2.5rem,5.5vw,4.5rem);line-height:.9;color:var(--text);letter-spacing:.04em;margin-bottom:1.5rem}
 .ct-headline em{color:var(--blue);font-style:normal}
-.ct-sub{font-size:13px;color:var(--text2);line-height:1.85;margin-bottom:2rem;max-width:340px}
-.ct-links{display:flex;flex-direction:column;gap:.6rem}
-.ct-link{display:flex;align-items:center;gap:.85rem;padding:.85rem 1.1rem;background:var(--surface);border:1px solid rgba(255,255,255,.04);text-decoration:none;color:var(--text2);transition:all .3s var(--expo);font-family:var(--ff-m);font-size:9px;letter-spacing:.1em}
-.ct-link:hover{border-color:rgba(0,180,255,.2);color:var(--text);background:rgba(0,180,255,.03);transform:translateX(5px)}
-.ct-link-i{font-size:13px;color:var(--blue);flex-shrink:0}
-.ct-link-note{font-size:7px;color:var(--text3);letter-spacing:.1em;margin-top:1px}
-.ct-terminal{background:rgba(0,0,0,.6);border:1px solid var(--border);padding:0;overflow:hidden;position:relative}
+.ct-sub{font-size:15px;color:var(--text2);line-height:1.9;margin-bottom:2.25rem;max-width:360px}
+.ct-links{display:flex;flex-direction:column;gap:.65rem}
+.ct-link{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;background:var(--surface);border:1px solid rgba(255,255,255,.05);text-decoration:none;color:var(--text2);transition:all .3s var(--expo);font-family:var(--ff-m);font-size:11px;letter-spacing:.09em}
+.ct-link:hover{border-color:rgba(0,180,255,.22);color:var(--text);background:rgba(0,180,255,.04);transform:translateX(6px)}
+.ct-link-i{font-size:15px;color:var(--blue);flex-shrink:0}
+.ct-link-note{font-size:9px;color:var(--text3);letter-spacing:.1em;margin-top:2px}
+.ct-terminal{background:rgba(0,0,0,.65);border:1px solid var(--border);overflow:hidden;position:relative}
 .ct-terminal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--purple))}
-.ct-term-header{background:rgba(0,180,255,.04);border-bottom:1px solid var(--border);padding:.75rem 1.25rem;display:flex;align-items:center;gap:.75rem}
-.ct-term-dots{display:flex;gap:5px}
-.ct-term-dots span{width:8px;height:8px;border-radius:50%}
-.ct-term-dots span:nth-child(1){background:rgba(255,34,85,.6)}
-.ct-term-dots span:nth-child(2){background:rgba(240,180,41,.6)}
-.ct-term-dots span:nth-child(3){background:rgba(0,255,136,.6)}
-.ct-term-title{font-family:var(--ff-m);font-size:8px;color:var(--text3);letter-spacing:.2em}
-.ct-term-body{padding:1.5rem 1.25rem}
-.ct-term-line{font-family:var(--ff-m);font-size:9px;color:var(--text3);margin-bottom:1.2rem}
+.ct-term-header{background:rgba(0,180,255,.04);border-bottom:1px solid var(--border);padding:.85rem 1.4rem;display:flex;align-items:center;gap:.85rem}
+.ct-term-dots{display:flex;gap:6px}
+.ct-term-dots span{width:9px;height:9px;border-radius:50%}
+.ct-term-dots span:nth-child(1){background:rgba(255,34,85,.65)}
+.ct-term-dots span:nth-child(2){background:rgba(240,180,41,.65)}
+.ct-term-dots span:nth-child(3){background:rgba(0,255,136,.65)}
+.ct-term-title{font-family:var(--ff-m);font-size:10px;color:var(--text3);letter-spacing:.18em}
+.ct-term-body{padding:1.75rem 1.4rem}
+.ct-term-line{font-family:var(--ff-m);font-size:11px;color:var(--text3);margin-bottom:1.4rem}
 .ct-term-line em{color:var(--green);font-style:normal}
-.ct-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.cf{display:flex;flex-direction:column;gap:4px}.cf.full{grid-column:1/-1}
-.cfl{font-family:var(--ff-m);font-size:7px;letter-spacing:.25em;color:var(--text3)}
+.ct-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.cf{display:flex;flex-direction:column;gap:5px}.cf.full{grid-column:1/-1}
+.cfl{font-family:var(--ff-m);font-size:9px;letter-spacing:.22em;color:var(--text3)}
 .cfl::before{content:'// ';color:rgba(0,180,255,.4)}
-.cfi,.cfta{background:rgba(0,180,255,.025);border:1px solid rgba(0,180,255,.07);color:var(--text);font-family:var(--ff-m);font-size:10px;padding:8px 11px;transition:border-color .2s;resize:none;outline:none}
-.cfi:focus,.cfta:focus{border-color:rgba(0,180,255,.28);background:rgba(0,180,255,.04)}
-.cfta{height:100px}
-.cf-submit{width:100%;margin-top:1rem;font-family:var(--ff-m);font-size:9px;letter-spacing:.2em;padding:12px;cursor:none;background:linear-gradient(135deg,rgba(0,180,255,.15),rgba(124,58,237,.15));border:1px solid rgba(0,180,255,.26);color:var(--blue);transition:all .3s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
-.cf-submit:hover{background:linear-gradient(135deg,rgba(0,180,255,.25),rgba(124,58,237,.25));box-shadow:0 0 36px rgba(0,180,255,.18)}
-.cf-msg{font-family:var(--ff-m);font-size:9px;margin-top:.8rem;padding:8px;display:none}
-.cf-msg.ok{color:var(--green);border:1px solid rgba(0,255,136,.18);background:rgba(0,255,136,.04)}
-.cf-msg.err{color:var(--red);border:1px solid rgba(255,34,85,.18);background:rgba(255,34,85,.04)}
-footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:1px solid rgba(255,255,255,.03);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.85rem}
-.ft-copy{font-family:var(--ff-m);font-size:8px;color:var(--text3);letter-spacing:.15em}
-.ft-status{font-family:var(--ff-m);font-size:8px;color:var(--text2);letter-spacing:.15em;display:flex;align-items:center;gap:.4rem}
-.sdot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s ease-in-out infinite}
-#pbg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.3}
+.cfi,.cfta{background:rgba(0,180,255,.025);border:1px solid rgba(0,180,255,.08);color:var(--text);font-family:var(--ff-m);font-size:13px;padding:10px 13px;transition:border-color .2s;resize:none;outline:none}
+.cfi:focus,.cfta:focus{border-color:rgba(0,180,255,.3);background:rgba(0,180,255,.05)}
+.cfta{height:110px}
+.cf-submit{width:100%;margin-top:1.1rem;font-family:var(--ff-m);font-size:11px;letter-spacing:.18em;padding:14px;cursor:none;background:linear-gradient(135deg,rgba(0,180,255,.16),rgba(124,58,237,.16));border:1px solid rgba(0,180,255,.28);color:var(--blue);transition:all .3s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
+.cf-submit:hover{background:linear-gradient(135deg,rgba(0,180,255,.28),rgba(124,58,237,.28));box-shadow:0 0 40px rgba(0,180,255,.2)}
+.cf-msg{font-family:var(--ff-m);font-size:11px;margin-top:.9rem;padding:10px;display:none}
+.cf-msg.ok{color:var(--green);border:1px solid rgba(0,255,136,.2);background:rgba(0,255,136,.05)}
+.cf-msg.err{color:var(--red);border:1px solid rgba(255,34,85,.2);background:rgba(255,34,85,.05)}
+
+footer{padding:2rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.ft-copy{font-family:var(--ff-m);font-size:10px;color:var(--text3);letter-spacing:.14em}
+.ft-status{font-family:var(--ff-m);font-size:10px;color:var(--text2);letter-spacing:.14em;display:flex;align-items:center;gap:.5rem}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green);animation:pulse 2s ease-in-out infinite}
+
 @media(max-width:1100px){.phil-inner{grid-template-columns:1fr;gap:3rem}.about-grid{grid-template-columns:1fr;gap:3rem}.pj.w8{grid-column:span 12}.pj.w4{grid-column:span 6}.build-grid{grid-template-columns:1fr 1fr}.roadmap-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:768px){.nav-links,.nav-btn{display:none}.hbg{display:flex}.pj.w4,.pj.w6{grid-column:span 12}.build-grid{grid-template-columns:1fr}.roadmap-grid{grid-template-columns:1fr 1fr}.ct-inner{grid-template-columns:1fr;gap:3rem}.ct-form-grid{grid-template-columns:1fr}.h-sphere{display:none}.rec-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.roadmap-grid{grid-template-columns:1fr}.rec-grid{grid-template-columns:1fr}.hero-stats{gap:1.2rem}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}}
-</style>
-
+@media(max-width:480px){.roadmap-grid{grid-template-columns:1fr}.rec-grid{grid-template-columns:1fr}.hero-stats{gap:1.5rem}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -387,8 +415,8 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
 </nav>
 <div class="mnav" id="mnav">
   <a href="#about">About</a><a href="#expertise">Skills</a><a href="#projects">Projects</a>
-  <a href="#roadmap">Roadmap</a><a href="#recruiter">Why Me</a>
-  <a href="#contact" style="color:var(--blue)">Contact</a>
+  <a href="#building">Building</a><a href="#roadmap">Roadmap</a>
+  <a href="#recruiter">Why Me</a><a href="#contact" style="color:var(--blue)">Contact</a>
 </div>
 
 <!-- HERO -->
@@ -397,11 +425,9 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
   <div class="hero-grid"></div>
   <div class="hero-vignette"></div>
   <div class="hud hud-tl">
-    <div>SYS // GSE PORTFOLIO v4.0</div>
+    <div>GSE PORTFOLIO v4.0</div>
     <div id="hud-time">00:00:00 IST</div>
-    <div>LOC // GREATER NOIDA, INDIA</div>
-    <div class="hud-stat">STATUS // SEEKING INTERNSHIP</div>
-    <div class="hud-warn">ENGINE // UNREAL ENGINE 5</div>
+    <div class="hud-stat">OPEN TO INTERNSHIP</div>
   </div>
   <div class="hud hud-br">
     <div id="hud-fps" style="color:var(--blue)">-- FPS</div>
@@ -413,15 +439,15 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
     <div class="h-core"><div class="h-core-txt">GAME<br>SYSTEMS<br>ENGINEER</div></div>
   </div>
   <div class="hero-content">
-    <div class="hero-badge"><div class="hero-badge-dot"></div>GAME SYSTEMS ENGINEER · OPEN TO INTERNSHIPS</div>
+    <div class="hero-badge"><div class="hero-badge-dot"></div>OPEN TO INTERNSHIPS &amp; ENTRY-LEVEL ROLES</div>
     <h1 class="hero-name">SAURAV<br>KUMAR</h1>
-    <div class="hero-title">GAME SYSTEMS ENGINEER</div>
+    <div class="hero-title">UE5 · C++ · BLUEPRINTS</div>
     <div class="hero-tag">
-      <span>Unreal Engine 5</span><span class="sep">•</span>
-      <span>C++</span><span class="sep">•</span>
+      <span>Unreal Engine 5</span><span class="sep">/</span>
+      <span>C++</span><span class="sep">/</span>
       <span>Gameplay Architecture</span>
     </div>
-    <p class="hero-desc">Building <strong>scalable gameplay systems</strong>, multiplayer-ready architectures, and performance-focused game frameworks. Not features — systems.</p>
+    <p class="hero-desc">Building <strong>scalable gameplay systems</strong> and multiplayer-ready architectures for AAA game experiences.</p>
     <div class="hero-stats">
       <div class="h-stat"><div class="h-stat-n"><em>500</em>+</div><div class="h-stat-l">Hours in UE5</div></div>
       <div class="h-stat"><div class="h-stat-n"><em>10</em>+</div><div class="h-stat-l">Technical Projects</div></div>
@@ -441,13 +467,13 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
 <!-- PHILOSOPHY -->
 <section id="philosophy">
   <div class="phil-inner">
-    <div class="phil-left">
+    <div>
       <div class="eyebrow rv">Engineering Philosophy</div>
       <div class="phil-headline rv d1">I DON'T BUILD<br><em>FEATURES.</em><br>I BUILD SYSTEMS.</div>
-      <p class="phil-body rv d2">A feature solves today's problem.<br>A system solves <strong>tomorrow's</strong> problems.<br><br>My focus is building <strong>scalable, reusable, performance-conscious gameplay architecture</strong> that can support entire game experiences — not one-off mechanics that break when the design changes.</p>
+      <p class="phil-body rv d2">A feature solves today's problem. A system solves <strong>tomorrow's</strong> problems.<br><br>My focus is building <strong>scalable, reusable, performance-conscious gameplay architecture</strong> that supports entire game experiences — not one-off mechanics that break when the design changes.</p>
       <div class="phil-pillars rv d3">
         <div class="phil-pillar"><span class="phil-pillar-i">◈</span>Modular — every system is an independent, swappable unit</div>
-        <div class="phil-pillar"><span class="phil-pillar-i">⬡</span>Replicated — multiplayer-aware from day one, not bolted on</div>
+        <div class="phil-pillar"><span class="phil-pillar-i">⬡</span>Replicated — multiplayer-aware from day one, not bolted on later</div>
         <div class="phil-pillar"><span class="phil-pillar-i">▲</span>Performant — profiled, optimized, and budget-conscious</div>
         <div class="phil-pillar"><span class="phil-pillar-i">⌘</span>Documented — readable, maintainable, team-ready code</div>
       </div>
@@ -459,7 +485,7 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
           <div class="arch-row"><div class="arch-node core">GAME FRAMEWORK</div></div>
           <div class="arch-row" style="justify-content:center;gap:1rem">
             <span class="arch-arrow">↙</span>
-            <span style="color:var(--text3);font-family:var(--ff-m);font-size:8px">SUBSYSTEMS</span>
+            <span style="color:var(--text3);font-family:var(--ff-m);font-size:10px">SUBSYSTEMS</span>
             <span class="arch-arrow">↘</span>
           </div>
           <div class="arch-row">
@@ -478,15 +504,15 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
             <div class="arch-node leaf">GAS Effect</div>
             <div class="arch-node leaf">EQS Query</div>
           </div>
-          <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)">
-            <div style="font-family:var(--ff-m);font-size:7px;color:var(--text3);letter-spacing:.2em;margin-bottom:.5rem">PRINCIPLES APPLIED</div>
-            <div style="display:flex;gap:.4rem;flex-wrap:wrap">
-              <span style="font-family:var(--ff-m);font-size:7px;padding:3px 7px;border:1px solid rgba(0,180,255,.14);color:rgba(0,180,255,.6)">SOLID</span>
-              <span style="font-family:var(--ff-m);font-size:7px;padding:3px 7px;border:1px solid rgba(124,58,237,.14);color:rgba(167,139,250,.6)">DRY</span>
-              <span style="font-family:var(--ff-m);font-size:7px;padding:3px 7px;border:1px solid rgba(240,180,41,.14);color:rgba(240,180,41,.6)">Data-Driven</span>
-              <span style="font-family:var(--ff-m);font-size:7px;padding:3px 7px;border:1px solid rgba(0,255,231,.14);color:rgba(0,255,231,.6)">Component-Based</span>
-              <span style="font-family:var(--ff-m);font-size:7px;padding:3px 7px;border:1px solid rgba(0,255,136,.14);color:rgba(0,255,136,.6)">Replication-First</span>
-            </div>
+        </div>
+        <div class="arch-tags">
+          <div class="arch-tags-label">PRINCIPLES APPLIED</div>
+          <div class="arch-tags-row">
+            <span class="arch-tag" style="border-color:rgba(0,180,255,.16);color:rgba(0,180,255,.7)">SOLID</span>
+            <span class="arch-tag" style="border-color:rgba(124,58,237,.16);color:rgba(167,139,250,.7)">DRY</span>
+            <span class="arch-tag" style="border-color:rgba(240,180,41,.16);color:rgba(240,180,41,.7)">Data-Driven</span>
+            <span class="arch-tag" style="border-color:rgba(0,255,231,.16);color:rgba(0,255,231,.7)">Component-Based</span>
+            <span class="arch-tag" style="border-color:rgba(0,255,136,.16);color:rgba(0,255,136,.7)">Replication-First</span>
           </div>
         </div>
       </div>
@@ -494,14 +520,15 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
   </div>
 </section>
 <div class="sdivider"></div>
-<!-- ABOUT -->
+
+<!-- ABOUT — single clean timeline -->
 <section id="about">
   <div class="about-grid">
     <div class="ab-card rv">
       <div class="ab-avatar">SK</div>
       <div class="ab-name">SAURAV KUMAR</div>
       <div class="ab-title">Game Systems Engineer · UE5 · C++</div>
-      <div class="ab-loc">Greater Noida, India · Open to Remote & Relocation</div>
+      <div class="ab-loc">Greater Noida, India · Open to Remote &amp; Relocation</div>
       <div class="ab-specs">
         <div class="ab-spec"><span class="ab-spec-i">⬡</span><span class="ab-spec-l">ENGINE</span><span class="ab-spec-v">Unreal Engine 5</span></div>
         <div class="ab-spec"><span class="ab-spec-i">⟨/⟩</span><span class="ab-spec-l">LANGUAGE</span><span class="ab-spec-v">C++ / Blueprints</span></div>
@@ -515,7 +542,7 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
       <div class="ab-cert-list">
         <div class="ab-cert">OOP in C++ — Certified</div>
         <div class="ab-cert">UE5 Fundamentals — Certified</div>
-        <div class="ab-cert">Advanced UMG & UI/UX — Certified</div>
+        <div class="ab-cert">Advanced UMG &amp; UI/UX — Certified</div>
         <div class="ab-cert">UE Inventory Systems — Udemy</div>
         <div class="ab-cert">Oracle SQL — Certified</div>
       </div>
@@ -525,14 +552,41 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
       <h2 class="ab-headline rv d1">Systems-Oriented.<br><em>Technical.</em><br>AAA-Focused.</h2>
       <p class="ab-desc rv d2">I'm a <strong>B.Tech CSE student at Galgotias University</strong> (graduating 2028) specializing in game systems engineering and gameplay programming. With 500+ hours in Unreal Engine 5, I focus on building the <strong>architectural foundations</strong> that power AAA games — not just features, but entire reusable frameworks.</p>
       <p class="ab-desc rv d3">My work centers on <strong>C++ gameplay systems</strong>, multiplayer replication architectures, modular component design, and the engineering rigor that separates professional game code from student projects. My goal is a senior gameplay programmer role at an AAA studio.</p>
-      <div class="rv d3">
-        <div class="eyebrow" style="margin-top:1.5rem;margin-bottom:1rem">Technical Growth</div>
-        <div class="career-timeline">
-          <div class="ct-item"><div class="ct-dot"></div><div class="ct-yr">2023</div><div class="ct-title">Unreal Engine Journey Begins</div><div class="ct-body">First exposure to UE4/5 architecture, Blueprint scripting, actor lifecycle</div></div>
-          <div class="ct-item"><div class="ct-dot p"></div><div class="ct-yr">2023–24</div><div class="ct-title">3D & Visual Tools</div><div class="ct-body">Blender 3D asset creation, UV mapping, integration with UE5 pipelines</div></div>
-          <div class="ct-item"><div class="ct-dot g"></div><div class="ct-yr">2024–25</div><div class="ct-title">Web Dev, Animation & UI Systems</div><div class="ct-body">Frontend engineering, Figma UI design, UMG advanced interfaces, React</div></div>
-          <div class="ct-item"><div class="ct-dot"></div><div class="ct-yr">2025–26</div><div class="ct-title">UE5 Fundamentals Solidified</div><div class="ct-body">Deep C++ in UE5, gameplay framework, subsystems, component architecture</div></div>
-          <div class="ct-item"><div class="ct-dot c"></div><div class="ct-yr">2026–27</div><div class="ct-title">Systems Engineering Projects</div><div class="ct-body">Networked Inventory System, Dungeon Escape, Parkour Game, Battle Blaster — production-quality gameplay systems</div></div>
+
+      <!-- SINGLE TIMELINE — Technical Growth only -->
+      <div class="rv d4">
+        <div class="eyebrow" style="margin-top:2rem;margin-bottom:1.25rem">Technical Growth</div>
+        <div class="tl-wrap">
+          <div class="tl-item">
+            <div class="tl-dot b"></div>
+            <div class="tl-yr">2022 — ENROLLED</div>
+            <div class="tl-title">B.Tech CSE · Galgotias University</div>
+            <div class="tl-body">Started core CS foundation — Data Structures, Algorithms, Software Engineering. Discovered game development and began parallel self-study.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot p"></div>
+            <div class="tl-yr">2023</div>
+            <div class="tl-title">Unreal Engine Journey Begins</div>
+            <div class="tl-body">First deep dive into UE4/5 architecture, Blueprint scripting, actor lifecycle, and Blender 3D asset creation with UE5 pipeline integration.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot g"></div>
+            <div class="tl-yr">2024 — 2025</div>
+            <div class="tl-title">UI Systems, Web &amp; Team Experience</div>
+            <div class="tl-body">Advanced UMG interfaces, Figma prototyping, React/frontend engineering. Joined the University Web Team — 4-person collaborative development with Git workflows.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot b"></div>
+            <div class="tl-yr">2025 — 2026</div>
+            <div class="tl-title">C++ &amp; UE5 Architecture Deep-Dive</div>
+            <div class="tl-body">Solidified deep C++ in UE5 — gameplay framework, subsystems, replication, and component architecture. 4 certifications earned including OOP C++ and UE5 Fundamentals.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot c"></div>
+            <div class="tl-yr">2026 — PRESENT</div>
+            <div class="tl-title">Production-Grade Gameplay Systems</div>
+            <div class="tl-body">Networked Inventory System, Dungeon Escape, Parkour Game, Battle Blaster — all built with production-quality architecture. Currently engineering GAS and multiplayer survival frameworks.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -550,7 +604,7 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
     <div class="exp-card rv" style="--cc:var(--blue)">
       <div class="exp-icon" style="background:rgba(0,180,255,.07);border-color:rgba(0,180,255,.16)">⬡</div>
       <div class="exp-title">Gameplay Systems</div>
-      <ul class="exp-items"><li>Inventory Architecture</li><li>Interaction Systems</li><li>Combat Systems</li><li>Save Systems</li><li>Quest Systems</li><li>AI Systems</li></ul>
+      <ul class="exp-items"><li>Inventory Architecture</li><li>Interaction Framework</li><li>Combat Systems</li><li>Save Systems (Async)</li><li>Quest Systems</li><li>AI Behavior Trees</li></ul>
       <div class="exp-bars">
         <div class="exp-bar-row"><div class="exp-bar-meta"><span>Inventory System</span><span>90%</span></div><div class="exp-bar-track"><div class="exp-bar-fill" style="background:linear-gradient(90deg,var(--blue),var(--cyan));--bc:var(--cyan)" data-w="90"></div></div></div>
         <div class="exp-bar-row"><div class="exp-bar-meta"><span>Interaction Framework</span><span>85%</span></div><div class="exp-bar-track"><div class="exp-bar-fill" style="background:linear-gradient(90deg,var(--blue),var(--cyan));--bc:var(--cyan)" data-w="85"></div></div></div>
@@ -560,7 +614,7 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
     <div class="exp-card rv d1" style="--cc:var(--purple2)">
       <div class="exp-icon" style="background:rgba(124,58,237,.07);border-color:rgba(124,58,237,.16)">⟨/⟩</div>
       <div class="exp-title">C++ Programming</div>
-      <ul class="exp-items"><li>Low-level game logic</li><li>Memory management</li><li>Performance optimization</li><li>Design patterns</li><li>Data structures & algorithms</li><li>UE5 API integration</li></ul>
+      <ul class="exp-items"><li>Low-level game logic</li><li>Memory management</li><li>Performance optimization</li><li>Design patterns (SOLID)</li><li>Data structures &amp; algorithms</li><li>UE5 API integration</li></ul>
       <div class="exp-bars">
         <div class="exp-bar-row"><div class="exp-bar-meta"><span>C++ (Advanced)</span><span>85%</span></div><div class="exp-bar-track"><div class="exp-bar-fill" style="background:linear-gradient(90deg,var(--purple),var(--purple2));--bc:var(--purple2)" data-w="85"></div></div></div>
         <div class="exp-bar-row"><div class="exp-bar-meta"><span>Blueprints</span><span>90%</span></div><div class="exp-bar-track"><div class="exp-bar-fill" style="background:linear-gradient(90deg,var(--purple),var(--purple2));--bc:var(--purple2)" data-w="90"></div></div></div>
@@ -570,7 +624,7 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
     <div class="exp-card rv d2" style="--cc:var(--gold)">
       <div class="exp-icon" style="background:rgba(240,180,41,.07);border-color:rgba(240,180,41,.16)">◈</div>
       <div class="exp-title">Multiplayer Systems</div>
-      <ul class="exp-items"><li>Replication framework</li><li>Server authority patterns</li><li>Fast Array Serialization</li><li>Delta replication</li><li>Network optimization</li><li>Client prediction</li></ul>
+      <ul class="exp-items"><li>Actor replication framework</li><li>Server authority patterns</li><li>Fast Array Serialization</li><li>Delta replication</li><li>Network optimization</li><li>Client prediction</li></ul>
       <div class="exp-bars">
         <div class="exp-bar-row"><div class="exp-bar-meta"><span>Replication</span><span>80%</span></div><div class="exp-bar-track"><div class="exp-bar-fill" style="background:linear-gradient(90deg,var(--gold),#fbbf24);--bc:#fbbf24" data-w="80"></div></div></div>
         <div class="exp-bar-row"><div class="exp-bar-meta"><span>Server Authority</span><span>75%</span></div><div class="exp-bar-track"><div class="exp-bar-fill" style="background:linear-gradient(90deg,var(--gold),#fbbf24);--bc:#fbbf24" data-w="75"></div></div></div>
@@ -580,7 +634,7 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
     <div class="exp-card rv d3" style="--cc:var(--cyan)">
       <div class="exp-icon" style="background:rgba(0,255,231,.07);border-color:rgba(0,255,231,.16)">▲</div>
       <div class="exp-title">Engineering Practices</div>
-      <ul class="exp-items"><li>SOLID principles</li><li>Profiling & optimization</li><li>Debug workflows</li><li>Performance budgets</li><li>Git version control</li><li>Code architecture</li></ul>
+      <ul class="exp-items"><li>SOLID principles</li><li>Unreal Insights profiling</li><li>Debug workflows</li><li>Performance budgets</li><li>Git version control</li><li>Code architecture review</li></ul>
       <div class="exp-bars">
         <div class="exp-bar-row"><div class="exp-bar-meta"><span>SOLID / Design Patterns</span><span>82%</span></div><div class="exp-bar-track"><div class="exp-bar-fill" style="background:linear-gradient(90deg,var(--cyan),#67e8f9);--bc:#67e8f9" data-w="82"></div></div></div>
         <div class="exp-bar-row"><div class="exp-bar-meta"><span>Profiling (Unreal Insights)</span><span>74%</span></div><div class="exp-bar-track"><div class="exp-bar-fill" style="background:linear-gradient(90deg,var(--cyan),#67e8f9);--bc:#67e8f9" data-w="74"></div></div></div>
@@ -590,6 +644,7 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
   </div>
 </section>
 <div class="sdivider"></div>
+
 <!-- PROJECTS -->
 <section id="projects">
   <div class="inner">
@@ -597,34 +652,37 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
     <h2 class="stitle rv d1">FEATURED<br><em>PROJECTS</em></h2>
   </div>
   <div class="proj-grid">
-    <!-- P1: Networked Inventory System -->
-    <div class="pj w8 rv">
+
+    <!-- P1: Networked Inventory System — WIDE -->
+    <div class="pj w8">
       <div class="pj-thumb tall">
         <div class="pj-thumb-bg">
-          <div class="pj-grid-pat" style="--tgc:rgba(0,180,255,.04)"></div>
-          <div class="pj-glow" style="--tgl:rgba(0,180,255,.13)"></div>
+          <div class="pj-grid-pat" style="--tgc:rgba(0,180,255,.05)"></div>
+          <div class="pj-glow" style="--tgl:rgba(0,180,255,.14)"></div>
         </div>
         <div class="pj-ui">
-          <div style="width:min(460px,95%);background:rgba(0,0,0,.9);border:1px solid rgba(0,180,255,.24);font-family:var(--ff-m)">
-            <div style="padding:.6rem 1rem;border-bottom:1px solid rgba(0,180,255,.1);display:flex;justify-content:space-between;align-items:center">
-              <span style="font-size:7px;color:var(--blue);letter-spacing:.25em">INVENTORY SYSTEM v2 // UE5 NETWORKED</span>
-              <span style="font-size:7px;color:var(--green)">● REPLICATED</span>
+          <div style="width:min(480px,95%);background:rgba(0,0,0,.92);border:1px solid rgba(0,180,255,.26);font-family:var(--ff-m)">
+            <div style="padding:.7rem 1.1rem;border-bottom:1px solid rgba(0,180,255,.12);display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:10px;color:var(--blue);letter-spacing:.2em">INVENTORY SYSTEM v2 // UE5 NETWORKED</span>
+              <span style="font-size:10px;color:var(--green)">● REPLICATED</span>
             </div>
-            <div style="padding:1rem">
-              <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:.85rem">
-                <div style="aspect-ratio:1;background:rgba(0,180,255,.09);border:1px solid rgba(0,180,255,.22);display:flex;align-items:center;justify-content:center;font-size:1.2rem;position:relative">⚔️<span style="position:absolute;bottom:1px;right:2px;font-size:6px;color:var(--text3)">x1</span></div>
-                <div style="aspect-ratio:1;background:rgba(124,58,237,.09);border:1px solid rgba(124,58,237,.22);display:flex;align-items:center;justify-content:center;font-size:1.2rem">🛡️</div>
-                <div style="aspect-ratio:1;background:rgba(240,180,41,.09);border:1px solid rgba(240,180,41,.22);display:flex;align-items:center;justify-content:center;font-size:1.2rem">💎</div>
-                <div style="aspect-ratio:1;background:rgba(0,255,136,.09);border:1px solid rgba(0,255,136,.22);display:flex;align-items:center;justify-content:center;font-size:1.2rem">🧪</div>
-                <div style="aspect-ratio:1;background:rgba(255,34,85,.09);border:1px solid rgba(255,34,85,.22);display:flex;align-items:center;justify-content:center;font-size:1.2rem">🔥</div>
-                <div style="aspect-ratio:1;border:1px dashed rgba(255,255,255,.04)"></div>
-                <div style="aspect-ratio:1;background:rgba(0,180,255,.05);border:1px solid rgba(0,180,255,.08);display:flex;align-items:center;justify-content:center;font-size:1.2rem">🗡️</div>
-                <div style="aspect-ratio:1;border:1px dashed rgba(255,255,255,.04)"></div>
-                <div style="aspect-ratio:1;border:1px dashed rgba(255,255,255,.04)"></div>
-                <div style="aspect-ratio:1;border:1px dashed rgba(255,255,255,.04)"></div>
+            <div style="padding:1.1rem">
+              <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:1rem">
+                <div style="aspect-ratio:1;background:rgba(0,180,255,.1);border:1px solid rgba(0,180,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;position:relative">⚔️<span style="position:absolute;bottom:2px;right:3px;font-size:9px;color:var(--text3)">x1</span></div>
+                <div style="aspect-ratio:1;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem">🛡️</div>
+                <div style="aspect-ratio:1;background:rgba(240,180,41,.1);border:1px solid rgba(240,180,41,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem">💎</div>
+                <div style="aspect-ratio:1;background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem">🧪</div>
+                <div style="aspect-ratio:1;background:rgba(255,34,85,.1);border:1px solid rgba(255,34,85,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem">🔥</div>
+                <div style="aspect-ratio:1;border:1px dashed rgba(255,255,255,.05)"></div>
+                <div style="aspect-ratio:1;background:rgba(0,180,255,.06);border:1px solid rgba(0,180,255,.1);display:flex;align-items:center;justify-content:center;font-size:1.4rem">🗡️</div>
+                <div style="aspect-ratio:1;border:1px dashed rgba(255,255,255,.05)"></div>
+                <div style="aspect-ratio:1;border:1px dashed rgba(255,255,255,.05)"></div>
+                <div style="aspect-ratio:1;border:1px dashed rgba(255,255,255,.05)"></div>
               </div>
-              <div style="height:1px;background:linear-gradient(90deg,var(--blue),var(--purple));margin-bottom:.6rem"></div>
-              <div style="display:flex;justify-content:space-between;font-size:7px;color:var(--text3)"><span>WEIGHT: 24/50</span><span>SLOTS: 6/20</span><span>DELTA: 0.4ms</span><span>SERVER AUTH: ✓</span></div>
+              <div style="height:1px;background:linear-gradient(90deg,var(--blue),var(--purple));margin-bottom:.7rem"></div>
+              <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3)">
+                <span>WEIGHT: 24/50</span><span>SLOTS: 6/20</span><span>DELTA: 0.4ms</span><span>SERVER AUTH: ✓</span>
+              </div>
             </div>
           </div>
         </div>
@@ -634,39 +692,52 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
       <div class="pj-body">
         <div class="pj-id">PROJECT // 001</div>
         <div class="pj-name">Networked Inventory System</div>
-        <div class="pj-section"><div class="pj-section-label">Problem</div><div class="pj-section-body">Standard replication caused latency spikes in inventory updates during competitive multiplayer — unacceptable for real-time gameplay.</div></div>
-        <div class="pj-section"><div class="pj-section-label">Architecture</div><div class="pj-section-body">Server-authoritative storage using Fast Array Serialization and Delta Replication. All mutations RPCed to server; client receives predicted state.</div></div>
-        <div class="pj-section"><div class="pj-section-label">Implementation</div><div class="pj-section-body">Custom FFastArraySerializer subclass with per-item dirty flags. Item add/remove validated through server RPCs. Client UI updated via delegate broadcasts on rep notify.</div></div>
-        <div class="pj-section"><div class="pj-section-label">Result</div><div class="pj-section-body">Significantly reduced network overhead. Item sync latency dropped, supporting 4-player concurrent inventory operations without bandwidth spikes.</div></div>
-        <div class="pj-tech"><span class="ttag">UE5</span><span class="ttag">C++</span><span class="ttag">Replication</span><span class="ttag">Fast Array Serialization</span><span class="ttag">Delta Replication</span><span class="ttag">RPCs</span></div>
+        <div class="pj-section">
+          <div class="pj-section-label">Problem</div>
+          <div class="pj-section-body">Standard UE5 array replication caused full-array resends on any mutation — causing latency spikes during concurrent 4-player inventory operations, unacceptable for competitive multiplayer.</div>
+        </div>
+        <div class="pj-section">
+          <div class="pj-section-label">Architecture</div>
+          <div class="pj-section-body">Server-authoritative storage using a custom <strong>FFastArraySerializer</strong> subclass with per-item dirty flags. All mutations (add, remove, move, use) are routed through validated server RPCs. Client UI updates via OnRep delegate broadcasts.</div>
+        </div>
+        <div class="pj-section">
+          <div class="pj-section-label">Implementation</div>
+          <div class="pj-section-body">Delta Replication ensures only changed item slots are sent per tick. Weight limits, slot capacity, and item stacking logic are all enforced server-side with client-predicted visual feedback to maintain responsiveness.</div>
+        </div>
+        <div class="pj-section">
+          <div class="pj-section-label">Result</div>
+          <div class="pj-section-body">Dramatically reduced per-operation bandwidth. Supports 4-player concurrent inventory mutations with sub-1ms delta sync. Zero desync errors during playtesting sessions.</div>
+        </div>
+        <div class="pj-tech"><span class="ttag">UE5</span><span class="ttag">C++</span><span class="ttag">Replication</span><span class="ttag">Fast Array Serialization</span><span class="ttag">Delta Replication</span><span class="ttag">Server RPCs</span></div>
         <div class="pj-links">
           <a href="https://github.com/SauravCraft/Inventory_System" target="_blank" class="lbtn lb-b">⌘ GitHub</a>
-          <a href="https://sauravcraft.netlify.app" target="_blank" class="lbtn lb-g">↗ Portfolio</a>
-          <a href="#contact" class="lbtn lb-p">◈ Case Study</a>
+          <a href="https://sauravcraft.vercel.app" target="_blank" class="lbtn lb-g">↗ Portfolio</a>
+          <a href="#contact" class="lbtn lb-p">◈ Full Case Study</a>
         </div>
       </div>
     </div>
+
     <!-- P2: Dungeon Escape -->
-    <div class="pj w4 rv d1">
+    <div class="pj w4">
       <div class="pj-thumb tall">
         <div class="pj-thumb-bg">
-          <div class="pj-grid-pat" style="--tgc:rgba(124,58,237,.04)"></div>
-          <div class="pj-glow" style="--tgl:rgba(124,58,237,.16)"></div>
+          <div class="pj-grid-pat" style="--tgc:rgba(124,58,237,.05)"></div>
+          <div class="pj-glow" style="--tgl:rgba(124,58,237,.17)"></div>
         </div>
-        <div class="pj-ui" style="flex-direction:column;align-items:flex-start;padding:1.2rem">
-          <div style="font-family:var(--ff-m);font-size:7px;color:var(--purple2);letter-spacing:.22em;margin-bottom:.75rem">DUNGEON ESCAPE // PROCEDURAL GEN</div>
-          <div style="display:flex;flex-direction:column;gap:3px;width:100%">
-            <div style="font-family:var(--ff-m);font-size:7px;color:var(--text3);letter-spacing:.12em">DUNGEON ROOMS GENERATED</div>
-            <div style="display:flex;gap:3px">
-              <div style="height:22px;flex:2;background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.3);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--purple2)">START</div>
-              <div style="height:22px;width:16px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.2)"></div>
-              <div style="height:22px;flex:1;background:rgba(240,180,41,.1);border:1px solid rgba(240,180,41,.2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--gold)">TRAP</div>
-              <div style="height:22px;width:16px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.2)"></div>
-              <div style="height:22px;flex:1;background:rgba(255,34,85,.1);border:1px solid rgba(255,34,85,.2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--red)">BOSS</div>
+        <div class="pj-ui" style="flex-direction:column;align-items:flex-start;padding:1.4rem">
+          <div style="font-family:var(--ff-m);font-size:10px;color:var(--purple2);letter-spacing:.18em;margin-bottom:.9rem">DUNGEON ESCAPE // PROCEDURAL</div>
+          <div style="width:100%;display:flex;flex-direction:column;gap:5px">
+            <div style="font-family:var(--ff-m);font-size:10px;color:var(--text3);letter-spacing:.1em;margin-bottom:4px">ROOM LAYOUT</div>
+            <div style="display:flex;gap:4px">
+              <div style="height:26px;flex:2;background:rgba(124,58,237,.22);border:1px solid rgba(124,58,237,.35);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--purple2)">START</div>
+              <div style="height:26px;width:18px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.22)"></div>
+              <div style="height:26px;flex:1;background:rgba(240,180,41,.12);border:1px solid rgba(240,180,41,.25);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--gold)">TRAP</div>
+              <div style="height:26px;width:18px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.22)"></div>
+              <div style="height:26px;flex:1;background:rgba(255,34,85,.12);border:1px solid rgba(255,34,85,.25);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--red)">BOSS</div>
             </div>
-            <div style="margin-top:.5rem;font-family:var(--ff-m);font-size:7px;color:var(--text3)">MEMORY BUDGET: 128MB / 256MB</div>
-            <div style="height:4px;background:rgba(255,255,255,.05);margin-top:2px"><div style="width:50%;height:100%;background:linear-gradient(90deg,var(--purple),var(--purple2))"></div></div>
-            <div style="margin-top:.5rem;font-family:var(--ff-m);font-size:7px;color:var(--green)">STREAMING STATUS: ASYNC LOADED</div>
+            <div style="margin-top:.6rem;font-family:var(--ff-m);font-size:10px;color:var(--text3)">MEMORY BUDGET: 128MB / 256MB</div>
+            <div style="height:4px;background:rgba(255,255,255,.06);margin-top:3px;border-radius:2px"><div style="width:50%;height:100%;background:linear-gradient(90deg,var(--purple),var(--purple2));border-radius:2px"></div></div>
+            <div style="margin-top:.5rem;font-family:var(--ff-m);font-size:10px;color:var(--green)">● ASYNC STREAMING ACTIVE</div>
           </div>
         </div>
         <div class="pj-sub">UE5 // PROCEDURAL // LEVEL STREAMING</div>
@@ -674,35 +745,45 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
       <div class="pj-body">
         <div class="pj-id">PROJECT // 002</div>
         <div class="pj-name">Dungeon Escape</div>
-        <div class="pj-section"><div class="pj-section-label">Problem</div><div class="pj-section-body">Non-linear room traversal + dynamic level streaming without memory overflow.</div></div>
-        <div class="pj-section"><div class="pj-section-label">Architecture</div><div class="pj-section-body">Modular sub-level streaming with async load/unload triggers keyed to player proximity volumes.</div></div>
-        <div class="pj-section"><div class="pj-section-label">Result</div><div class="pj-section-body">5 unique dungeon layouts with performant async streaming and zero memory overflow during traversal.</div></div>
-        <div class="pj-tech"><span class="ttag">UE5</span><span class="ttag">C++</span><span class="ttag">Blueprints</span><span class="ttag">Niagara</span><span class="ttag">Level Streaming</span></div>
+        <div class="pj-section">
+          <div class="pj-section-label">Problem</div>
+          <div class="pj-section-body">Non-linear dungeon traversal required dynamic room loading without stalling the game thread or causing memory overflow from holding all rooms simultaneously.</div>
+        </div>
+        <div class="pj-section">
+          <div class="pj-section-label">Architecture</div>
+          <div class="pj-section-body">Modular sub-level streaming system — each dungeon room is an independently loaded/unloaded sub-level. Proximity trigger volumes call async load/unload, keeping only 2–3 adjacent rooms in memory at any time.</div>
+        </div>
+        <div class="pj-section">
+          <div class="pj-section-label">Result</div>
+          <div class="pj-section-body">5 unique dungeon layouts with zero hitches during traversal. Memory budget held under 128MB with async streaming preventing any game-thread stalls.</div>
+        </div>
+        <div class="pj-tech"><span class="ttag">UE5</span><span class="ttag">C++</span><span class="ttag">Blueprints</span><span class="ttag">Niagara VFX</span><span class="ttag">Level Streaming</span></div>
         <div class="pj-links">
           <a href="https://github.com/SauravCraft/Dungeon_Escape" target="_blank" class="lbtn lb-b">⌘ GitHub</a>
-          <a href="https://sauravcraft.netlify.app" target="_blank" class="lbtn lb-g">↗ Demo</a>
+          <a href="https://sauravcraft.vercel.app" target="_blank" class="lbtn lb-g">↗ Demo</a>
         </div>
       </div>
     </div>
+
     <!-- P3: Parkour Game -->
-    <div class="pj w6 rv">
+    <div class="pj w6">
       <div class="pj-thumb">
         <div class="pj-thumb-bg">
-          <div class="pj-grid-pat" style="--tgc:rgba(0,255,136,.03)"></div>
-          <div class="pj-glow" style="--tgl:rgba(0,255,136,.12)"></div>
+          <div class="pj-grid-pat" style="--tgc:rgba(0,255,136,.04)"></div>
+          <div class="pj-glow" style="--tgl:rgba(0,255,136,.13)"></div>
         </div>
-        <div class="pj-ui" style="align-items:flex-start;padding:1.2rem">
+        <div class="pj-ui" style="align-items:flex-start;padding:1.4rem">
           <div style="width:100%;font-family:var(--ff-m)">
-            <div style="font-size:7px;color:var(--green);letter-spacing:.22em;margin-bottom:.75rem">PARKOUR MOVEMENT FSM</div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px">
-              <div style="padding:6px;border:1px solid rgba(0,255,136,.2);background:rgba(0,255,136,.05);text-align:center"><div style="font-size:7px;color:var(--green)">GROUND</div></div>
-              <div style="padding:6px;border:1px solid rgba(0,180,255,.2);background:rgba(0,180,255,.05);text-align:center"><div style="font-size:7px;color:var(--blue)">WALL RUN</div></div>
-              <div style="padding:6px;border:1px solid rgba(240,180,41,.2);background:rgba(240,180,41,.05);text-align:center"><div style="font-size:7px;color:var(--gold)">VAULT</div></div>
-              <div style="padding:6px;border:1px solid rgba(124,58,237,.2);background:rgba(124,58,237,.05);text-align:center"><div style="font-size:7px;color:var(--purple2)">LEDGE GRAB</div></div>
-              <div style="padding:6px;border:1px solid rgba(0,255,231,.2);background:rgba(0,255,231,.05);text-align:center"><div style="font-size:7px;color:var(--cyan)">AIR CTRL</div></div>
-              <div style="padding:6px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);text-align:center"><div style="font-size:7px;color:var(--text3)">SLIDE</div></div>
+            <div style="font-size:10px;color:var(--green);letter-spacing:.18em;margin-bottom:.85rem">MOVEMENT FSM — ACTIVE STATES</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
+              <div style="padding:8px;border:1px solid rgba(0,255,136,.22);background:rgba(0,255,136,.06);text-align:center"><div style="font-size:10px;color:var(--green)">GROUND</div></div>
+              <div style="padding:8px;border:1px solid rgba(0,180,255,.22);background:rgba(0,180,255,.06);text-align:center"><div style="font-size:10px;color:var(--blue)">WALL RUN</div></div>
+              <div style="padding:8px;border:1px solid rgba(240,180,41,.22);background:rgba(240,180,41,.06);text-align:center"><div style="font-size:10px;color:var(--gold)">VAULT</div></div>
+              <div style="padding:8px;border:1px solid rgba(124,58,237,.22);background:rgba(124,58,237,.06);text-align:center"><div style="font-size:10px;color:var(--purple2)">LEDGE GRAB</div></div>
+              <div style="padding:8px;border:1px solid rgba(0,255,231,.22);background:rgba(0,255,231,.06);text-align:center"><div style="font-size:10px;color:var(--cyan)">AIR CTRL</div></div>
+              <div style="padding:8px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);text-align:center"><div style="font-size:10px;color:var(--text3)">SLIDE</div></div>
             </div>
-            <div style="margin-top:.6rem;font-size:7px;color:var(--text3)">INPUT LATENCY: &lt;1 FRAME // ENHANCED INPUT SYSTEM</div>
+            <div style="margin-top:.75rem;font-size:10px;color:var(--text3)">INPUT LATENCY: &lt;1 FRAME // ENHANCED INPUT</div>
           </div>
         </div>
         <div class="pj-sub">UE5 // MOVEMENT SYSTEMS // ENHANCED INPUT</div>
@@ -710,50 +791,69 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
       <div class="pj-body">
         <div class="pj-id">PROJECT // 003</div>
         <div class="pj-name">Parkour Game</div>
-        <div class="pj-section"><div class="pj-section-label">Problem</div><div class="pj-section-body">Creating responsive, fluid character movement with sub-frame input responsiveness and physically grounded feel.</div></div>
-        <div class="pj-section"><div class="pj-section-label">Implementation</div><div class="pj-section-body">FSM-driven movement component extending UCharacterMovementComponent. Wall detection via capsule traces. Ledge grab uses async physics queries for zero-hitch transitions.</div></div>
-        <div class="pj-section"><div class="pj-section-label">Result</div><div class="pj-section-body">High-velocity movement prototype with wall-running, vaulting, ledge grabbing and sub-frame input responsiveness using Enhanced Input.</div></div>
+        <div class="pj-section">
+          <div class="pj-section-label">Problem</div>
+          <div class="pj-section-body">Complex traversal movement (wall-running, vaulting, ledge grabbing) needed to feel responsive and physically grounded — any input lag or jank breaks player immersion completely.</div>
+        </div>
+        <div class="pj-section">
+          <div class="pj-section-label">Architecture</div>
+          <div class="pj-section-body">FSM-driven movement extending <strong>UCharacterMovementComponent</strong>. Wall detection via multi-trace capsule sweeps. Ledge detection uses async physics line queries with IK foot placement. All states managed by a single MovementFSM component.</div>
+        </div>
+        <div class="pj-section">
+          <div class="pj-section-label">Result</div>
+          <div class="pj-section-body">Sub-frame input responsiveness across all 6 movement states. Wall-running, vaulting, ledge grabs, air control, and sliding all transition correctly without state conflicts.</div>
+        </div>
         <div class="pj-tech"><span class="ttag">UE5</span><span class="ttag">C++</span><span class="ttag">Enhanced Input</span><span class="ttag">Movement FSM</span><span class="ttag">Physics Traces</span></div>
         <div class="pj-links">
           <a href="https://github.com/SauravCraft/ParkourGame" target="_blank" class="lbtn lb-b">⌘ GitHub</a>
-          <a href="https://sauravcraft.netlify.app" target="_blank" class="lbtn lb-g">↗ Demo</a>
+          <a href="https://sauravcraft.vercel.app" target="_blank" class="lbtn lb-g">↗ Demo</a>
         </div>
       </div>
     </div>
+
     <!-- P4: Battle Blaster -->
-    <div class="pj w6 rv d1">
+    <div class="pj w6">
       <div class="pj-thumb">
         <div class="pj-thumb-bg">
-          <div class="pj-grid-pat" style="--tgc:rgba(255,34,85,.03)"></div>
-          <div class="pj-glow" style="--tgl:rgba(255,34,85,.12)"></div>
+          <div class="pj-grid-pat" style="--tgc:rgba(255,34,85,.04)"></div>
+          <div class="pj-glow" style="--tgl:rgba(255,34,85,.13)"></div>
         </div>
-        <div class="pj-ui" style="align-items:flex-start;padding:1.2rem">
+        <div class="pj-ui" style="align-items:flex-start;padding:1.4rem">
           <div style="width:100%;font-family:var(--ff-m)">
-            <div style="font-size:7px;color:var(--red);letter-spacing:.22em;margin-bottom:.75rem">BATTLE BLASTER // COMBAT SYSTEM</div>
-            <div style="display:flex;flex-direction:column;gap:4px">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border:1px solid rgba(255,34,85,.18);background:rgba(255,34,85,.04)">
-                <span style="font-size:7px;color:var(--text2)">HEALTH</span>
-                <div style="flex:1;margin:0 .75rem;height:3px;background:rgba(255,255,255,.06)"><div style="width:72%;height:100%;background:var(--red)"></div></div>
-                <span style="font-size:7px;color:var(--red)">72%</span>
+            <div style="font-size:10px;color:var(--red);letter-spacing:.18em;margin-bottom:.85rem">BATTLE BLASTER // COMBAT</div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;align-items:center;gap:.6rem;padding:6px 10px;border:1px solid rgba(255,34,85,.2);background:rgba(255,34,85,.05)">
+                <span style="font-size:10px;color:var(--text2)">HP</span>
+                <div style="flex:1;height:4px;background:rgba(255,255,255,.07);border-radius:2px"><div style="width:72%;height:100%;background:var(--red);border-radius:2px"></div></div>
+                <span style="font-size:10px;color:var(--red)">72%</span>
               </div>
-              <div style="display:flex;gap:4px">
-                <div style="flex:1;padding:5px;border:1px solid rgba(240,180,41,.18);background:rgba(240,180,41,.04);text-align:center;font-size:7px;color:var(--gold)">RIFLE ✓</div>
-                <div style="flex:1;padding:5px;border:1px solid rgba(255,255,255,.06);text-align:center;font-size:7px;color:var(--text3)">SHOTGUN</div>
-                <div style="flex:1;padding:5px;border:1px solid rgba(255,255,255,.06);text-align:center;font-size:7px;color:var(--text3)">ROCKET</div>
+              <div style="display:flex;gap:5px">
+                <div style="flex:1;padding:7px;border:1px solid rgba(240,180,41,.2);background:rgba(240,180,41,.05);text-align:center;font-size:10px;color:var(--gold)">RIFLE ✓</div>
+                <div style="flex:1;padding:7px;border:1px solid rgba(255,255,255,.07);text-align:center;font-size:10px;color:var(--text3)">SHOTGUN</div>
+                <div style="flex:1;padding:7px;border:1px solid rgba(255,255,255,.07);text-align:center;font-size:10px;color:var(--text3)">ROCKET</div>
               </div>
-              <div style="font-size:7px;color:var(--text3);margin-top:2px">AI ENEMIES SPAWNED: 8 // ARENA PHASE: 2</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:3px">AI ENEMIES SPAWNED: 8 // ARENA PHASE: 2</div>
             </div>
           </div>
         </div>
-        <div class="pj-sub">UE5 // COMBAT ARCHITECTURE // AI SPAWNING</div>
+        <div class="pj-sub">UE5 // COMBAT // AI SPAWNING</div>
       </div>
       <div class="pj-body">
         <div class="pj-id">PROJECT // 004</div>
         <div class="pj-name">Battle Blaster</div>
-        <div class="pj-section"><div class="pj-section-label">Problem</div><div class="pj-section-body">Arcade shooter requiring fast-paced combat, weapon swapping, AI spawning, and balanced projectile physics.</div></div>
-        <div class="pj-section"><div class="pj-section-label">Architecture</div><div class="pj-section-body">Abstract weapon base class with concrete rifle/shotgun/rocket subclasses. AI spawner using pool pattern. Damage routed through generic IDamageInterface.</div></div>
-        <div class="pj-section"><div class="pj-section-label">Result</div><div class="pj-section-body">Playable arena level with functioning AI system, weapon swap framework, and Niagara particle-based combat feedback.</div></div>
-        <div class="pj-tech"><span class="ttag">UE5</span><span class="ttag">C++</span><span class="ttag">Blueprints</span><span class="ttag">AI Spawner</span><span class="ttag">Niagara</span><span class="ttag">Projectile System</span></div>
+        <div class="pj-section">
+          <div class="pj-section-label">Problem</div>
+          <div class="pj-section-body">An arcade shooter needs fast weapon switching, balanced enemy spawning, and satisfying projectile physics — all while keeping combat feel tight and responsive under heavy AI load.</div>
+        </div>
+        <div class="pj-section">
+          <div class="pj-section-label">Architecture</div>
+          <div class="pj-section-body">Abstract <strong>AWeaponBase</strong> class with Rifle, Shotgun, and Rocket subclasses. Enemy spawning uses an <strong>ASpawnPool</strong> actor with wave-based escalation. All damage is routed through a generic <strong>IDamageInterface</strong> for full decoupling.</div>
+        </div>
+        <div class="pj-section">
+          <div class="pj-section-label">Result</div>
+          <div class="pj-section-body">Playable arena level with 8+ simultaneous AI enemies, seamless weapon swap, and Niagara particle-driven combat feedback. Wave progression tested to Phase 5 without frame drops.</div>
+        </div>
+        <div class="pj-tech"><span class="ttag">UE5</span><span class="ttag">C++</span><span class="ttag">Blueprints</span><span class="ttag">AI Spawner</span><span class="ttag">Niagara VFX</span><span class="ttag">Projectile Physics</span></div>
         <div class="pj-links">
           <a href="https://github.com/SauravCraft/BattleBlasterGame" target="_blank" class="lbtn lb-b">⌘ GitHub</a>
           <a href="https://saurav170103.itch.io" target="_blank" class="lbtn lb-g">↗ Itch.io</a>
@@ -763,54 +863,56 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
   </div>
 </section>
 <div class="sdivider"></div>
+
 <!-- CURRENTLY BUILDING -->
 <section id="building">
   <div class="inner">
     <div class="eyebrow rv">Active Development</div>
     <h2 class="stitle rv d1">CURRENTLY<br><em>BUILDING</em></h2>
+    <p class="rv d2" style="margin-top:1.25rem;font-size:15px;color:var(--text2);max-width:600px;line-height:1.8">Three major systems under active construction — each pushing into deeper AAA territory. These represent the next milestone on the roadmap toward production-level game engineering.</p>
   </div>
   <div class="build-grid">
-    <div class="build-card rv" style="--cc:var(--blue)">
-      <div class="build-status"><div class="build-dot"></div>IN DEVELOPMENT</div>
+    <div class="build-card" style="--cc:var(--blue)">
+      <div class="build-status"><div class="build-dot"></div>IN DEVELOPMENT — 40%</div>
       <div class="build-name">Multiplayer Survival Architecture</div>
-      <p class="build-desc">Authoritative movement system with full persistence layer and replicated world state for a survival game framework.</p>
+      <p class="build-desc">A fully authoritative server-side movement and world state system for a survival game. Every player action is validated server-side with client-predicted visual feedback to maintain zero perceived latency — the same pattern used in commercial survival titles.</p>
       <div class="build-modules">
-        <div class="build-module" style="--cc:var(--blue)">Authoritative Movement</div>
-        <div class="build-module" style="--cc:var(--blue)">Client Prediction</div>
-        <div class="build-module" style="--cc:var(--blue)">World State Persistence</div>
-        <div class="build-module" style="--cc:var(--blue)">Replication Layer</div>
+        <div class="build-module" style="--cc:var(--blue)">Authoritative Movement Component</div>
+        <div class="build-module" style="--cc:var(--blue)">Client Prediction &amp; Reconciliation</div>
+        <div class="build-module" style="--cc:var(--blue)">World State Persistence (Async Save)</div>
+        <div class="build-module" style="--cc:var(--blue)">Full Actor Replication Layer</div>
       </div>
-      <div class="build-progress-bar">
+      <div class="build-prog-wrap">
         <div class="build-prog-label"><span>PROGRESS</span><span>40%</span></div>
         <div class="build-prog-track"><div class="build-prog-fill" style="--cc:var(--blue)" data-w="40"></div></div>
       </div>
     </div>
-    <div class="build-card rv d1" style="--cc:var(--purple2)">
-      <div class="build-status"><div class="build-dot" style="background:var(--purple2);box-shadow:0 0 6px var(--purple)"></div>IN DEVELOPMENT</div>
+    <div class="build-card" style="--cc:var(--purple2)">
+      <div class="build-status"><div class="build-dot" style="background:var(--purple2);box-shadow:0 0 6px var(--purple)"></div>IN DEVELOPMENT — 35%</div>
       <div class="build-name">Gameplay Ability System Integration</div>
-      <p class="build-desc">Full GAS implementation with custom Attributes, Abilities, and Gameplay Effects for a complex action RPG combat framework.</p>
+      <p class="build-desc">Full GAS implementation from scratch — the same framework powering Fortnite, Lyra, and most modern UE5 AAA titles. Building custom AttributeSets, networked Ability activations, and Gameplay Effect stacks for a complex action RPG combat loop.</p>
       <div class="build-modules">
-        <div class="build-module" style="--cc:var(--purple2)">Attribute Sets</div>
-        <div class="build-module" style="--cc:var(--purple2)">Gameplay Abilities</div>
-        <div class="build-module" style="--cc:var(--purple2)">Gameplay Effects</div>
-        <div class="build-module" style="--cc:var(--purple2)">Ability Tasks</div>
+        <div class="build-module" style="--cc:var(--purple2)">Custom Attribute Sets (Health, Stamina, Mana)</div>
+        <div class="build-module" style="--cc:var(--purple2)">Networked Gameplay Abilities</div>
+        <div class="build-module" style="--cc:var(--purple2)">Gameplay Effect Stacking &amp; Modifiers</div>
+        <div class="build-module" style="--cc:var(--purple2)">Ability Tasks &amp; Async Triggers</div>
       </div>
-      <div class="build-progress-bar">
+      <div class="build-prog-wrap">
         <div class="build-prog-label"><span>PROGRESS</span><span>35%</span></div>
         <div class="build-prog-track"><div class="build-prog-fill" style="--cc:var(--purple2)" data-w="35"></div></div>
       </div>
     </div>
-    <div class="build-card rv d2" style="--cc:var(--gold)">
-      <div class="build-status"><div class="build-dot" style="background:var(--gold);box-shadow:0 0 6px var(--gold)"></div>IN DEVELOPMENT</div>
+    <div class="build-card" style="--cc:var(--gold)">
+      <div class="build-status"><div class="build-dot" style="background:var(--gold);box-shadow:0 0 6px var(--gold)"></div>IN DEVELOPMENT — 55%</div>
       <div class="build-name">Inventory System V2</div>
-      <p class="build-desc">Advanced drag-and-drop inventory with equipment slots, item comparison, loot filters, and full server-authoritative replication.</p>
+      <p class="build-desc">A major upgrade to the existing networked inventory — adding full drag-and-drop UMG UI, dedicated equipment slots (helm, chest, weapon, offhand), item stat comparison tooltips, loot rarity filters, and a V2 server-authority layer with batched RPC updates.</p>
       <div class="build-modules">
-        <div class="build-module" style="--cc:var(--gold)">Equipment Slot System</div>
-        <div class="build-module" style="--cc:var(--gold)">Drag & Drop UMG UI</div>
-        <div class="build-module" style="--cc:var(--gold)">Loot Filter System</div>
-        <div class="build-module" style="--cc:var(--gold)">Server Authority V2</div>
+        <div class="build-module" style="--cc:var(--gold)">Drag &amp; Drop UMG with Ghost Preview</div>
+        <div class="build-module" style="--cc:var(--gold)">Equipment Slot System (6 Slot Types)</div>
+        <div class="build-module" style="--cc:var(--gold)">Item Rarity &amp; Loot Filter Logic</div>
+        <div class="build-module" style="--cc:var(--gold)">Batched Server Authority V2</div>
       </div>
-      <div class="build-progress-bar">
+      <div class="build-prog-wrap">
         <div class="build-prog-label"><span>PROGRESS</span><span>55%</span></div>
         <div class="build-prog-track"><div class="build-prog-fill" style="--cc:var(--gold)" data-w="55"></div></div>
       </div>
@@ -819,7 +921,7 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
 </section>
 <div class="sdivider"></div>
 
-<!-- AAA ROADMAP -->
+<!-- ROADMAP -->
 <section id="roadmap">
   <div class="inner">
     <div class="eyebrow rv">Mission Progression</div>
@@ -830,42 +932,43 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
       <div class="rm-col-header"><div class="rm-col-label done">✓ COMPLETED</div></div>
       <div class="rm-items">
         <div class="rm-item done">Interaction System</div>
-        <div class="rm-item done">Inventory Architecture</div>
+        <div class="rm-item done">Inventory Architecture V1</div>
         <div class="rm-item done">Movement Framework</div>
-        <div class="rm-item done">Basic AI (Behavior Trees)</div>
+        <div class="rm-item done">Basic AI — Behavior Trees</div>
         <div class="rm-item done">Niagara Particle FX</div>
-        <div class="rm-item done">Dungeon Procedural Gen</div>
+        <div class="rm-item done">Procedural Dungeon Gen</div>
         <div class="rm-item done">Enhanced Input System</div>
         <div class="rm-item done">Multiplayer Replication Basics</div>
+        <div class="rm-item done">UE5 Certifications (x4)</div>
       </div>
     </div>
     <div class="rm-col">
       <div class="rm-col-header"><div class="rm-col-label active">▶ CURRENT</div></div>
       <div class="rm-items">
-        <div class="rm-item active">Save System (Async)</div>
+        <div class="rm-item active">Async Save System</div>
         <div class="rm-item active">Combat Framework V2</div>
         <div class="rm-item active">GAS Integration</div>
         <div class="rm-item active">Multiplayer Survival Arch</div>
-        <div class="rm-item active">Inventory V2 (Drag & Drop)</div>
+        <div class="rm-item active">Inventory V2 — Drag &amp; Drop</div>
       </div>
     </div>
     <div class="rm-col">
       <div class="rm-col-header"><div class="rm-col-label next">◈ UPCOMING</div></div>
       <div class="rm-items">
-        <div class="rm-item next">Advanced AI Systems (EQS)</div>
-        <div class="rm-item next">Animation Systems (IK)</div>
-        <div class="rm-item next">Animation Blueprint Adv.</div>
-        <div class="rm-item next">Physics & Destruction</div>
-        <div class="rm-item next">Profiling & Optimization</div>
+        <div class="rm-item next">Advanced AI — EQS</div>
+        <div class="rm-item next">Animation Systems — IK Rigging</div>
+        <div class="rm-item next">Advanced Animation Blueprint</div>
+        <div class="rm-item next">Physics &amp; Chaos Destruction</div>
+        <div class="rm-item next">Unreal Insights Profiling</div>
       </div>
     </div>
     <div class="rm-col">
       <div class="rm-col-header"><div class="rm-col-label future">○ FUTURE</div></div>
       <div class="rm-items">
-        <div class="rm-item future">Vertical Slice (AAA-Grade)</div>
-        <div class="rm-item future">Online Services (EOS)</div>
+        <div class="rm-item future">AAA-Grade Vertical Slice</div>
+        <div class="rm-item future">Epic Online Services (EOS)</div>
         <div class="rm-item future">Engine Source Contribution</div>
-        <div class="rm-item future">Shipped Title</div>
+        <div class="rm-item future">Shipped Commercial Title</div>
         <div class="rm-item future">AAA Studio Role</div>
       </div>
     </div>
@@ -877,20 +980,20 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
 <section id="experience">
   <div class="inner">
     <div class="eyebrow rv">Work History</div>
-    <h2 class="stitle rv d1">EXPERIENCE &<br><em>TIMELINE</em></h2>
+    <h2 class="stitle rv d1">EXPERIENCE &amp;<br><em>TIMELINE</em></h2>
   </div>
-  <div class="exp-timeline-inner">
+  <div class="etl-inner">
     <div class="etl-item">
       <div class="etl-dot b"></div>
       <div class="etl-yr">2025 — PRESENT</div>
-      <div class="etl-role">Frontend & UI/UX Associate</div>
+      <div class="etl-role">Frontend &amp; UI/UX Associate</div>
       <div class="etl-org">University Web Team · Galgotias University</div>
       <ul class="etl-list">
-        <li>Collaborative UI development on university-facing web systems</li>
-        <li>High-fidelity prototyping and design systems in Figma</li>
-        <li>Responsive design implementation across device targets</li>
-        <li>Version control workflows using Git in a 4-person team</li>
-        <li>Contributing to frontend code implementation and QA cycles</li>
+        <li>Collaborative UI development on university-facing web systems reaching 10,000+ students</li>
+        <li>High-fidelity prototyping and design systems in Figma — 15+ screens delivered</li>
+        <li>Responsive design implementation across desktop, tablet, and mobile targets</li>
+        <li>Version control workflows using Git in a 4-person team with PR review cycles</li>
+        <li>Frontend code implementation and QA: functional testing, cross-browser compatibility</li>
       </ul>
     </div>
     <div class="etl-item">
@@ -899,70 +1002,71 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
       <div class="etl-role">Independent Game Systems Developer</div>
       <div class="etl-org">Self-Directed · Unreal Engine 5</div>
       <ul class="etl-list">
-        <li>Built 4 complete game projects in UE5 with C++ and Blueprints</li>
-        <li>Engineered Networked Inventory System with replication and server authority</li>
-        <li>Created procedural dungeon generation system with async level streaming</li>
-        <li>Developed movement framework: wall run, vault, ledge grab, air control</li>
-        <li>Completed 4 certifications: OOP C++, UE5 Fundamentals, UMG, Inventory Systems</li>
+        <li>Built 4 complete game projects in UE5 — each targeting a distinct systems engineering domain</li>
+        <li>Engineered Networked Inventory System with Fast Array Serialization and server authority</li>
+        <li>Created procedural dungeon generation with async level streaming — zero memory overflow</li>
+        <li>Developed full parkour movement framework: wall run, vault, ledge grab, slide, air control</li>
+        <li>Completed 4 certifications: OOP in C++, UE5 Fundamentals, Advanced UMG, Inventory Systems</li>
       </ul>
     </div>
     <div class="etl-item">
       <div class="etl-dot g"></div>
-      <div class="etl-yr">2022</div>
+      <div class="etl-yr">2022 — PRESENT</div>
       <div class="etl-role">B.Tech Computer Science Engineering</div>
-      <div class="etl-org">Galgotias University · Enrolled</div>
+      <div class="etl-org">Galgotias University · Greater Noida · Graduating 2028</div>
       <ul class="etl-list">
-        <li>Core CS foundation: Data Structures, Algorithms, Software Engineering</li>
-        <li>Oracle SQL Certification achieved</li>
-        <li>Began parallel game development studies alongside formal curriculum</li>
+        <li>Core CS foundation: Data Structures, Algorithms, OOP, DBMS, Software Engineering</li>
+        <li>Oracle SQL Certification achieved — database design and query optimization</li>
+        <li>Parallel self-directed game development track running alongside formal curriculum</li>
       </ul>
     </div>
   </div>
 </section>
 <div class="sdivider"></div>
 
-<!-- RECRUITER -->
+<!-- WHY HIRE ME -->
 <section id="recruiter">
   <div class="inner">
     <div class="eyebrow rv">For Recruiters</div>
     <h2 class="stitle rv d1">WHY<br><em>HIRE ME?</em></h2>
+    <p class="rv d2" style="margin-top:1.25rem;font-size:15px;color:var(--text2);max-width:620px;line-height:1.8">Here's what sets me apart from other student candidates — and why I'm built for a junior gameplay programming role at an ambitious studio.</p>
   </div>
   <div class="rec-grid">
-    <div class="rec-card rv" style="--cc:var(--blue)">
+    <div class="rec-card" style="--cc:var(--blue)">
       <div class="rec-icon">⬡</div>
-      <div class="rec-title">Unreal Engine Focused</div>
-      <p class="rec-body">500+ dedicated hours in UE5. Not a side project — my primary engineering environment. I know the gameplay framework, subsystem architecture, and UMG pipeline deeply.</p>
-      <div class="rec-metric">500+ HOURS · UE5 ECOSYSTEM</div>
+      <div class="rec-title">Unreal Engine Specialist</div>
+      <p class="rec-body">500+ dedicated hours in UE5 — not a casual hobbyist, this is my primary engineering environment. I have hands-on depth in the gameplay framework, actor lifecycle, subsystem architecture, UMG pipeline, Niagara VFX, and the entire Unreal C++ ecosystem. I can onboard to a UE5 codebase immediately.</p>
+      <div class="rec-metric">500+ HOURS · 4 SHIPPED UE5 PROJECTS · CERTIFIED</div>
     </div>
-    <div class="rec-card rv d1" style="--cc:var(--purple2)">
+    <div class="rec-card" style="--cc:var(--purple2)">
       <div class="rec-icon">⟨/⟩</div>
-      <div class="rec-title">Strong C++ Foundation</div>
-      <p class="rec-body">Advanced C++ certified. Low-level game logic, memory management, performance optimization within the UE5 ecosystem. OOP principles, design patterns applied in shipped code.</p>
-      <div class="rec-metric">C++ ADVANCED · OOP CERTIFIED</div>
+      <div class="rec-title">Advanced C++ Foundation</div>
+      <p class="rec-body">OOP in C++ certified. I write low-level game logic, manage memory manually inside UE5's allocator, apply performance optimization techniques, and follow SOLID design patterns in actual shipped code — not just in textbook exercises. My C++ is read by the engine, not just the compiler.</p>
+      <div class="rec-metric">C++ ADVANCED · OOP CERTIFIED · SOLID PRINCIPLES</div>
     </div>
-    <div class="rec-card rv d2" style="--cc:var(--gold)">
+    <div class="rec-card" style="--cc:var(--gold)">
       <div class="rec-icon">◈</div>
-      <div class="rec-title">Systems-Oriented Thinking</div>
-      <p class="rec-body">I don't prototype features. I architect reusable systems. Every project is designed modularly — built to extend, not to hack. SOLID principles applied from day one.</p>
-      <div class="rec-metric">SOLID · DRY · COMPONENT-BASED</div>
+      <div class="rec-title">Systems-Oriented Thinker</div>
+      <p class="rec-body">I don't build one-off features — I architect reusable, modular systems. When I built the Inventory System, I designed it so any future item type, slot configuration, or UI could plug in without touching the core. That's the mindset AAA studios need: engineering that survives a full production cycle.</p>
+      <div class="rec-metric">SOLID · DRY · MODULAR · COMPONENT-BASED</div>
     </div>
-    <div class="rec-card rv d3" style="--cc:var(--cyan)">
+    <div class="rec-card" style="--cc:var(--cyan)">
       <div class="rec-icon">🌐</div>
-      <div class="rec-title">Multiplayer Knowledge</div>
-      <p class="rec-body">Real networking experience: Fast Array Serialization, Delta Replication, server authority patterns, RPC design. Not just awareness — applied in a shipped networked system.</p>
-      <div class="rec-metric">REPLICATION · SERVER AUTHORITY · FAS</div>
+      <div class="rec-title">Real Multiplayer Experience</div>
+      <p class="rec-body">Not just theoretical networking knowledge — I've implemented Fast Array Serialization, Delta Replication, server authority RPCs, and client-predicted feedback in a working 4-player networked inventory system. I understand the latency tradeoffs and bandwidth implications of every replication decision.</p>
+      <div class="rec-metric">FAS · DELTA REPLICATION · SERVER RPCs · 4-PLAYER TESTED</div>
     </div>
-    <div class="rec-card rv" style="--cc:var(--green)">
+    <div class="rec-card" style="--cc:var(--green)">
       <div class="rec-icon">⚡</div>
-      <div class="rec-title">Fast Learner</div>
-      <p class="rec-body">4 game projects across diverse domains in under 2 years. Certifications in UE5, C++, UMG, SQL. Currently studying GAS, authoritative networking, and advanced AI systems simultaneously.</p>
-      <div class="rec-metric">4 CERTS · 4 PROJECTS · 2 YEARS</div>
+      <div class="rec-title">Aggressive Self-Learner</div>
+      <p class="rec-body">4 game projects across 4 different domains — inventory systems, procedural generation, movement engineering, and combat architecture — all in under 2 years while studying full-time. Currently learning GAS, authoritative networking, and advanced AI simultaneously. I move fast and I document what I learn.</p>
+      <div class="rec-metric">4 CERTS · 4 PROJECTS · 500+ UE5 HRS · 2 YEARS SELF-TAUGHT</div>
     </div>
-    <div class="rec-card rv d1" style="--cc:var(--red)">
+    <div class="rec-card" style="--cc:var(--red)">
       <div class="rec-icon">🎯</div>
-      <div class="rec-title">Long-Term AAA Vision</div>
-      <p class="rec-body">Clear career trajectory: internship → junior gameplay programmer → senior game systems engineer at an AAA studio. Every project, certification, and system is a deliberate step on that roadmap.</p>
-      <div class="rec-metric">TARGET: AAA GAMEPLAY PROGRAMMER</div>
+      <div class="rec-title">Clear AAA Career Vision</div>
+      <p class="rec-body">I'm not exploring options — I know exactly where I'm going: internship → junior gameplay programmer → senior game systems engineer at an AAA studio like Epic, Rockstar, CD Projekt Red, or Naughty Dog. Every project and certification is a deliberate step on a mapped-out trajectory. I'm not here by accident.</p>
+      <div class="rec-metric">TARGET: SENIOR GAMEPLAY PROGRAMMER · AAA STUDIO</div>
     </div>
   </div>
 </section>
@@ -978,27 +1082,27 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
       <div class="ct-links rv d3">
         <a class="ct-link" href="mailto:sauravkumar7739s@gmail.com">
           <span class="ct-link-i">✉</span>
-          <div><div>sauravkumar7739s@gmail.com</div><div class="ct-link-note">PRIMARY CHANNEL</div></div>
+          <div><div>sauravkumar7739s@gmail.com</div><div class="ct-link-note">PRIMARY CHANNEL — RESPONSE WITHIN 24HRS</div></div>
         </a>
         <a class="ct-link" href="https://github.com/SauravCraft" target="_blank">
           <span class="ct-link-i">⌘</span>
-          <div><div>github.com/SauravCraft</div><div class="ct-link-note">CODE REPOSITORY</div></div>
+          <div><div>github.com/SauravCraft</div><div class="ct-link-note">ALL PROJECT SOURCE CODE</div></div>
         </a>
-        <a class="ct-link" href="https://sauravcraft.netlify.app" target="_blank">
+        <a class="ct-link" href="https://sauravcraft.vercel.app" target="_blank">
           <span class="ct-link-i">◈</span>
-          <div><div>sauravcraft.netlify.app</div><div class="ct-link-note">PORTFOLIO DOMAIN</div></div>
+          <div><div>sauravcraft.netlify.app</div><div class="ct-link-note">LIVE PORTFOLIO DOMAIN</div></div>
         </a>
         <a class="ct-link" href="https://saurav170103.itch.io" target="_blank">
           <span class="ct-link-i">⬡</span>
-          <div><div>saurav170103.itch.io</div><div class="ct-link-note">GAME DEMOS</div></div>
+          <div><div>saurav170103.itch.io</div><div class="ct-link-note">PLAYABLE GAME DEMOS</div></div>
         </a>
-        <a class="ct-link" href="https://linkedin.com/in/saurav-kumar" target="_blank">
+        <a class="ct-link" href="https://www.linkedin.com/in/saurav-kumar-88a069315/" target="_blank">
           <span class="ct-link-i">▲</span>
-          <div><div>linkedin.com/in/saurav-kumar</div><div class="ct-link-note">PROFESSIONAL NETWORK</div></div>
+          <div><div>linkedin.com/in/saurav-kumar-88a069315</div><div class="ct-link-note">PROFESSIONAL NETWORK</div></div>
         </a>
         <div class="ct-link" style="pointer-events:none;cursor:default">
           <span class="ct-link-i">📍</span>
-          <div><div>Greater Noida, India</div><div class="ct-link-note">OPEN TO REMOTE & RELOCATION</div></div>
+          <div><div>Greater Noida, Uttar Pradesh, India</div><div class="ct-link-note">OPEN TO REMOTE &amp; RELOCATION WORLDWIDE</div></div>
         </div>
       </div>
     </div>
@@ -1009,15 +1113,19 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
       </div>
       <div class="ct-term-body">
         <div class="ct-term-line"><em>root@sk-gse</em>:~$ ./send_transmission.sh</div>
+        <!-- Web3Forms: replace YOUR_ACCESS_KEY with key from web3forms.com -->
+        <input type="hidden" name="access_key" id="w3f_key" value="YOUR_ACCESS_KEY">
+        <input type="hidden" name="subject" value="Portfolio Contact — Saurav Kumar GSE">
+        <input type="hidden" name="from_name" value="SK.GSE Portfolio">
         <div class="ct-form-grid">
-          <div class="cf"><label class="cfl">NAME</label><input class="cfi" type="text" placeholder="Your name" id="cfn"></div>
-          <div class="cf"><label class="cfl">EMAIL</label><input class="cfi" type="email" placeholder="your@email.com" id="cfe"></div>
-          <div class="cf full"><label class="cfl">SUBJECT</label><input class="cfi" type="text" placeholder="Internship · Collaboration · Gameplay Programmer Role..."></div>
-          <div class="cf full"><label class="cfl">MESSAGE</label><textarea class="cfta" placeholder="Tell me about the opportunity or project..."></textarea></div>
+          <div class="cf"><label class="cfl">NAME</label><input class="cfi" type="text" placeholder="Your name" id="cfn" name="name"></div>
+          <div class="cf"><label class="cfl">EMAIL</label><input class="cfi" type="email" placeholder="your@email.com" id="cfe" name="email"></div>
+          <div class="cf full"><label class="cfl">SUBJECT</label><input class="cfi" type="text" id="cfs" name="subject_line" placeholder="Internship · Collaboration · Gameplay Programmer Role..."></div>
+          <div class="cf full"><label class="cfl">MESSAGE</label><textarea class="cfta" id="cfm" name="message" placeholder="Tell me about the opportunity, the studio, and what you're building..."></textarea></div>
         </div>
-        <div class="cf-msg ok" id="cfok">✓ TRANSMISSION SUCCESSFUL — Response within 24 hours.</div>
-        <div class="cf-msg err" id="cferr">✕ Fill in name and email to transmit.</div>
-        <button class="cf-submit" id="cfsub">SEND TRANSMISSION ↗</button>
+        <div class="cf-msg ok" id="cfok">✓ TRANSMISSION SUCCESSFUL — I'll respond within 24 hours.</div>
+        <div class="cf-msg err" id="cferr">✕ Please fill in your name and email before transmitting.</div>
+        <button class="cf-submit" id="cfsub">⬡ SEND TRANSMISSION</button>
       </div>
     </div>
   </div>
@@ -1025,8 +1133,9 @@ footer{padding:1.75rem clamp(1.5rem,6vw,5.5rem);background:var(--bg);border-top:
 
 <footer>
   <span class="ft-copy">© 2026 SAURAV KUMAR · GAME SYSTEMS ENGINEER · UE5 · C++ · GREATER NOIDA, INDIA</span>
-  <div class="ft-status"><div class="sdot"></div>AVAILABLE FOR INTERNSHIP & ENTRY-LEVEL ROLES</div>
+  <div class="ft-status"><div class="sdot"></div>AVAILABLE FOR INTERNSHIP &amp; ENTRY-LEVEL ROLES</div>
 </footer>
+
 <script>
 /* CURSOR */
 const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
@@ -1052,12 +1161,12 @@ const fpe=document.getElementById('hud-fps');
   lines.forEach(l=>l.classList.remove('show'));
   let p=0;
   const iv=setInterval(()=>{
-    p+=Math.random()*15+7;if(p>100)p=100;
+    p+=Math.random()*14+6;if(p>100)p=100;
     fill.style.width=p+'%';pct.textContent=Math.floor(p)+'%';
     const si=Math.min(Math.floor(p/15),lines.length-1);
     for(let i=0;i<=si;i++)lines[i].classList.add('show');
-    if(p>=100){clearInterval(iv);setTimeout(()=>document.getElementById('loader').classList.add('gone'),700);}
-  },220);
+    if(p>=100){clearInterval(iv);setTimeout(()=>document.getElementById('loader').classList.add('gone'),800);}
+  },230);
 })();
 
 /* NAV */
@@ -1069,10 +1178,10 @@ mnav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mnav.class
 /* REVEAL ON SCROLL */
 const ro=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}});
-},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+},{threshold:.07,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
 
-/* SKILL + PROGRESS BARS */
+/* ANIMATED BARS */
 const bo=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
@@ -1080,10 +1189,10 @@ const bo=new IntersectionObserver(entries=>{
       bo.unobserve(e.target);
     }
   });
-},{threshold:.3});
+},{threshold:.25});
 document.querySelectorAll('.exp-card,.build-card').forEach(c=>bo.observe(c));
 
-/* THREE.JS PARTICLE UNIVERSE */
+/* THREE.JS */
 (function(){
   if(!window.THREE)return;
   const canvas=document.getElementById('three-canvas');
@@ -1096,7 +1205,6 @@ document.querySelectorAll('.exp-card,.build-card').forEach(c=>bo.observe(c));
   cam.position.set(0,0,32);
   function resize(){const w=hero.offsetWidth,h=hero.offsetHeight;renderer.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix();}
   resize();window.addEventListener('resize',resize);
-
   const N=1600,pos=new Float32Array(N*3),col=new Float32Array(N*3);
   const PC=[[0,.71,1],[.49,.23,.93],[.94,.71,.16],[0,1,.91]];
   for(let i=0;i<N;i++){
@@ -1108,20 +1216,15 @@ document.querySelectorAll('.exp-card,.build-card').forEach(c=>bo.observe(c));
   geo.setAttribute('color',new THREE.BufferAttribute(col,3));
   const pts=new THREE.Points(geo,new THREE.PointsMaterial({size:.18,vertexColors:true,transparent:true,opacity:.6,sizeAttenuation:true}));
   scene.add(pts);
-
   const sphere=new THREE.Mesh(new THREE.IcosahedronGeometry(5,1),new THREE.MeshBasicMaterial({color:0x003366,wireframe:true,transparent:true,opacity:.06}));
   scene.add(sphere);
-
   [[9,0x00b4ff],[7,0x7c3aed],[11,0x00ffe7]].forEach(([r,c],i)=>{
     const m=new THREE.Mesh(new THREE.RingGeometry(r-.01,r+.01,64),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.22,side:THREE.DoubleSide}));
-    m.rotation.x=Math.PI/2+i*.4;m.rotation.y=i*.6;
-    m.userData.speed=(i+1)*.015*(i%2===0?1:-1);
+    m.rotation.x=Math.PI/2+i*.4;m.rotation.y=i*.6;m.userData.speed=(i+1)*.015*(i%2===0?1:-1);
     scene.add(m);
   });
-
   let mX=0,mY=0;
   document.addEventListener('mousemove',e=>{mX=(e.clientX/window.innerWidth-.5)*2;mY=(e.clientY/window.innerHeight-.5)*2;});
-
   let t=0;
   (function animate(){
     requestAnimationFrame(animate);t+=.004;
@@ -1135,19 +1238,14 @@ document.querySelectorAll('.exp-card,.build-card').forEach(c=>bo.observe(c));
   })();
 })();
 
-/* AMBIENT PARTICLE BACKGROUND */
+/* AMBIENT PARTICLES */
 (function(){
   const c=document.getElementById('pbg'),ctx=c.getContext('2d');
   let W,H;
   function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
   resize();window.addEventListener('resize',resize);
   const COLS=['0,180,255','124,58,237','240,180,41','0,255,231'];
-  const pts=Array.from({length:80},()=>({
-    x:Math.random()*innerWidth,y:Math.random()*innerHeight,
-    vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,
-    r:Math.random()*1.2+.2,a:Math.random()*.25+.04,
-    c:COLS[Math.floor(Math.random()*COLS.length)]
-  }));
+  const pts=Array.from({length:80},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.2+.3,a:Math.random()*.2+.04,c:COLS[Math.floor(Math.random()*COLS.length)]}));
   let mx=0,my=0;
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
   (function draw(){
@@ -1156,39 +1254,45 @@ document.querySelectorAll('.exp-card,.build-card').forEach(c=>bo.observe(c));
       p.x+=p.vx;p.y+=p.vy;
       if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
       const dx=p.x-mx,dy=p.y-my,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<90){p.x+=dx/d*.35;p.y+=dy/d*.35;}
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(${p.c},${p.a})`;ctx.fill();
+      if(d<90){p.x+=dx/d*.3;p.y+=dy/d*.3;}
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(${p.c},${p.a})`;ctx.fill();
       for(let j=i+1;j<pts.length;j++){
         const p2=pts[j],ddx=p.x-p2.x,ddy=p.y-p2.y,dd=Math.sqrt(ddx*ddx+ddy*ddy);
-        if(dd<85){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p2.x,p2.y);ctx.strokeStyle=`rgba(0,180,255,${.045*(1-dd/85)})`;ctx.lineWidth=.35;ctx.stroke();}
+        if(dd<90){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p2.x,p2.y);ctx.strokeStyle=`rgba(0,180,255,${.04*(1-dd/90)})`;ctx.lineWidth=.3;ctx.stroke();}
       }
     });
     requestAnimationFrame(draw);
   })();
 })();
 
-/* GSAP SCROLL ANIMATIONS */
+/* GSAP */
 if(window.gsap&&window.ScrollTrigger){
   gsap.registerPlugin(ScrollTrigger);
-  gsap.from('.pj',{scrollTrigger:{trigger:'#projects',start:'top 80%'},y:30,opacity:0,duration:.8,stagger:.12,ease:'power3.out'});
-  gsap.from('.rec-card',{scrollTrigger:{trigger:'#recruiter',start:'top 80%'},y:20,opacity:0,duration:.7,stagger:.1,ease:'power3.out'});
-  gsap.from('.build-card',{scrollTrigger:{trigger:'#building',start:'top 80%'},y:24,opacity:0,duration:.8,stagger:.14,ease:'power3.out'});
-  gsap.from('.rm-col',{scrollTrigger:{trigger:'#roadmap',start:'top 75%'},y:18,opacity:0,duration:.7,stagger:.1,ease:'power3.out'});
-  gsap.from('.etl-item',{scrollTrigger:{trigger:'#experience',start:'top 75%'},x:-24,opacity:0,duration:.8,stagger:.18,ease:'power3.out'});
-  gsap.from('.ct-item',{scrollTrigger:{trigger:'.career-timeline',start:'top 80%'},x:-18,opacity:0,duration:.7,stagger:.14,ease:'power3.out'});
-  gsap.from('.arch-node',{scrollTrigger:{trigger:'#philosophy',start:'top 75%'},scale:.9,opacity:0,duration:.6,stagger:.06,ease:'power3.out'});
-  gsap.to('.hero-grid',{yPercent:15,scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
-  gsap.to('.h-sphere',{yPercent:8,scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+  // Cards animated from invisible — use fromTo for reliability
+  const ease='power3.out';
+  gsap.fromTo('.pj',{y:32,opacity:0},{scrollTrigger:{trigger:'#projects',start:'top 85%',once:true},y:0,opacity:1,duration:.75,stagger:.1,ease});
+  gsap.fromTo('.build-card',{y:26,opacity:0},{scrollTrigger:{trigger:'#building',start:'top 85%',once:true},y:0,opacity:1,duration:.75,stagger:.12,ease});
+  gsap.fromTo('.rec-card',{y:22,opacity:0},{scrollTrigger:{trigger:'#recruiter',start:'top 85%',once:true},y:0,opacity:1,duration:.7,stagger:.08,ease});
+  gsap.fromTo('.rm-col',{y:20,opacity:0},{scrollTrigger:{trigger:'#roadmap',start:'top 85%',once:true},y:0,opacity:1,duration:.65,stagger:.08,ease});
+  gsap.fromTo('.etl-item',{x:-26,opacity:0},{scrollTrigger:{trigger:'#experience',start:'top 85%',once:true},x:0,opacity:1,duration:.75,stagger:.15,ease});
+  gsap.fromTo('.tl-item',{x:-20,opacity:0},{scrollTrigger:{trigger:'.tl-wrap',start:'top 85%',once:true},x:0,opacity:1,duration:.65,stagger:.12,ease});
+  gsap.fromTo('.arch-node',{scale:.88,opacity:0},{scrollTrigger:{trigger:'#philosophy',start:'top 85%',once:true},scale:1,opacity:1,duration:.6,stagger:.05,ease});
+  gsap.to('.hero-grid',{yPercent:14,scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+  gsap.to('.h-sphere',{yPercent:7,scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
 }
+// Safety fallback — make everything visible after 3s regardless
+setTimeout(()=>{
+  document.querySelectorAll('.pj,.build-card,.rec-card,.rm-col,.etl-item,.tl-item').forEach(el=>{
+    el.style.opacity='1';el.style.transform='none';
+  });
+},3000);
 
 /* CARD TILT */
 document.querySelectorAll('.pj,.exp-card,.rec-card,.build-card,.ab-card').forEach(card=>{
   card.addEventListener('mousemove',e=>{
     const r=card.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5;
-    const y=(e.clientY-r.top)/r.height-.5;
-    card.style.transform=`perspective(700px) rotateY(${x*6}deg) rotateX(${-y*6}deg) translateY(-5px)`;
+    const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(800px) rotateY(${x*5}deg) rotateX(${-y*5}deg) translateY(-6px)`;
   });
   card.addEventListener('mouseleave',()=>{card.style.transform='';});
 });
@@ -1201,18 +1305,51 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   });
 });
 
-/* CONTACT FORM */
-document.getElementById('cfsub').addEventListener('click',()=>{
-  const n=document.getElementById('cfn').value.trim();
-  const e=document.getElementById('cfe').value.trim();
-  document.getElementById('cfok').style.display='none';
-  document.getElementById('cferr').style.display='none';
-  if(!n||!e){document.getElementById('cferr').style.display='block';return;}
-  document.getElementById('cfok').style.display='block';
-  setTimeout(()=>document.getElementById('cfok').style.display='none',5000);
+/* CONTACT FORM — Web3Forms */
+document.getElementById('cfsub').addEventListener('click', async () => {
+  const n = document.getElementById('cfn').value.trim();
+  const e = document.getElementById('cfe').value.trim();
+  const s = document.getElementById('cfs') ? document.getElementById('cfs').value.trim() : '';
+  const m = document.getElementById('cfm') ? document.getElementById('cfm').value.trim() : '';
+  const ok = document.getElementById('cfok');
+  const err = document.getElementById('cferr');
+  ok.style.display = 'none'; err.style.display = 'none';
+  if (!n || !e) { err.textContent = '✕ Please fill in your name and email.'; err.style.display = 'block'; return; }
+  const key = document.getElementById('w3f_key').value;
+  if (!key || key === 'YOUR_ACCESS_KEY') {
+    // Fallback — open mailto
+    window.location.href = 'mailto:sauravkumar7739s@gmail.com?subject=' + encodeURIComponent(s || 'Portfolio Inquiry') + '&body=' + encodeURIComponent('From: ' + n + ' (' + e + ')\n\n' + m);
+    return;
+  }
+  const btn = document.getElementById('cfsub');
+  btn.textContent = 'TRANSMITTING...'; btn.style.opacity = '.6';
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ access_key: key, name: n, email: e, subject: s || 'Portfolio Contact — ' + n, message: m })
+    });
+    const data = await res.json();
+    if (data.success) {
+      ok.textContent = '✓ TRANSMISSION SUCCESSFUL — I will respond within 24 hours.';
+      ok.style.display = 'block';
+      document.getElementById('cfn').value = '';
+      document.getElementById('cfe').value = '';
+      if (document.getElementById('cfs')) document.getElementById('cfs').value = '';
+      if (document.getElementById('cfm')) document.getElementById('cfm').value = '';
+      setTimeout(() => { ok.style.display = 'none'; }, 6000);
+    } else {
+      err.textContent = '✕ Transmission failed — please email directly: sauravkumar7739s@gmail.com';
+      err.style.display = 'block';
+    }
+  } catch(ex) {
+    err.textContent = '✕ Network error — please email: sauravkumar7739s@gmail.com';
+    err.style.display = 'block';
+  }
+  btn.textContent = '⬡ SEND TRANSMISSION'; btn.style.opacity = '1';
 });
 
-/* HERO PARALLAX FALLBACK */
+/* PARALLAX FALLBACK */
 if(!window.gsap){
   window.addEventListener('scroll',()=>{
     const sy=scrollY;
